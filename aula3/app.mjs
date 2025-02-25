@@ -7,14 +7,14 @@ const server = http.createServer();
 server.addListener("request", (request, response) => {
   const urlObject = new URL(`http://${request.headers.host}${request.url}`);
 
-  if (urlObject.pathname === "/") {
+  if (urlObject.pathname === "/" && request.method == "GET") {
     response.writeHead(200, { "Content-Type": "application/json" });
     response.write(JSON.stringify(stock));
     response.end();
     return;
   }
 
-  if (urlObject.pathname === "/get-by-id") {
+  if (urlObject.pathname === "/get-by-id" && request.method == "GET") {
     const idParam = urlObject.searchParams.get("id");
 
     if (!idParam || isNaN(idParam)) {
@@ -41,7 +41,10 @@ server.addListener("request", (request, response) => {
     return;
   }
 
-  if (urlObject.pathname === "/produtos-indisponiveis") {
+  if (
+    urlObject.pathname === "/produtos-indisponiveis" &&
+    request.method == "GET"
+  ) {
     const unavaliableProducts = stock.filter(
       (product) => product.amountLeft == 0
     );
