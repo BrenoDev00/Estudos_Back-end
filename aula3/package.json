@@ -1,0 +1,15 @@
+{
+  "name": "api-stock",
+  "version": "1.0.0",
+  "description": "API de estoque com Node.JS.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node --watch ."
+  },
+  "author": "Breno",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "body": "^5.1.0"
+  }
+}

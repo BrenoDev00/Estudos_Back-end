@@ -1,6 +1,7 @@
 import http from "node:http";
-import { stock } from "./stock.mjs";
+import { stock } from "./stock.js";
 import { URL } from "node:url";
+import jsonBody from "body/json.js";
 
 const server = http.createServer();
 
@@ -53,6 +54,32 @@ server.addListener("request", (request, response) => {
     response.write(JSON.stringify(unavaliableProducts));
     response.end();
     return;
+  }
+
+  if (urlObject.pathname === "/create" && request.method === "POST") {
+    jsonBody(request, response, (error, body) => {
+      if (error) {
+        response.writeHead(400, { "Content-Type": "application-json" });
+        response.write(error.message);
+        response.end();
+        return;
+      }
+
+      const { productName, amountLeft } = body;
+
+      const newProduct = {
+        id: stock.length,
+        productName,
+        amountLeft,
+      };
+
+      stock.push(newProduct);
+
+      response.writeHead(200, { "Content-Type": "application-json" });
+      response.write(JSON.stringify(newProduct));
+      response.end();
+      return;
+    });
   }
 });
 
