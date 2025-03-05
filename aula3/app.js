@@ -36,7 +36,7 @@ server.addListener("request", (request, response) => {
       return;
     }
 
-    response.writeHead(200, { "Content-Type": "application-json" });
+    response.writeHead(200, { "Content-Type": "application/json" });
     response.write(JSON.stringify(selectedObject));
     response.end();
     return;
@@ -50,8 +50,35 @@ server.addListener("request", (request, response) => {
       (product) => product.amountLeft == 0
     );
 
-    response.writeHead(200, { "Content-Type": "application-json" });
+    response.writeHead(200, { "Content-Type": "application/json" });
     response.write(JSON.stringify(unavaliableProducts));
+    response.end();
+    return;
+  }
+
+  if (urlObject.pathname === "/delete-product" && request.method === "DELETE") {
+    const idParam = urlObject.searchParams.get("id");
+
+    if (!idParam || isNaN(idParam)) {
+      response.writeHead(400, { "content-type": "text/plain" });
+      response.write("Informe um id numérico.");
+      response.end();
+      return;
+    }
+
+    const selectedObject = stock.filter((product) => {
+      return product.id !== Number(idParam);
+    });
+
+    if (!selectedObject) {
+      response.writeHead(404, { "Content-Type": "application/json" });
+      response.write("Produto inexistente.");
+      response.end();
+      return;
+    }
+
+    response.writeHead(200, { "Content-Type": "application/json" });
+    response.write(JSON.stringify(selectedObject));
     response.end();
     return;
   }
@@ -59,7 +86,7 @@ server.addListener("request", (request, response) => {
   if (urlObject.pathname === "/create" && request.method === "POST") {
     jsonBody(request, response, (error, body) => {
       if (error) {
-        response.writeHead(400, { "Content-Type": "application-json" });
+        response.writeHead(400, { "Content-Type": "application/json" });
         response.write(error.message);
         response.end();
         return;
@@ -75,7 +102,7 @@ server.addListener("request", (request, response) => {
 
       stock.push(newProduct);
 
-      response.writeHead(200, { "Content-Type": "application-json" });
+      response.writeHead(200, { "Content-Type": "application/json" });
       response.write(JSON.stringify(newProduct));
       response.end();
       return;
