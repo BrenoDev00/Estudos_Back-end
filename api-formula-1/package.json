@@ -1,0 +1,15 @@
+{
+  "name": "api-formula-1",
+  "version": "1.0.0",
+  "description": "Projeto de API que fornece os dados da competição de fórmula 1 do ano de 2023.",
+  "main": "app.js",
+  "scripts": {
+    "dev": "node --watch ."
+  },
+  "author": "Breno",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
