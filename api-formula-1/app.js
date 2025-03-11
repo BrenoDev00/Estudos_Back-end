@@ -12,8 +12,17 @@ app.get(baseAPIroute + "/drivers", (req, res) => {
 
 // ":position" é a sintaxe usada para parâmetros de rota
 app.get(baseAPIroute + "/drivers/standings/:position", (req, res) => {
-  const position = req.params.position;
+  const position = req.params;
+
   const selectedDriver = drivers[position - 1];
+
+  res.status(200).send(selectedDriver);
+});
+
+app.get(baseAPIroute + "/drivers/:id", (req, res) => {
+  const { id } = req.params;
+
+  const selectedDriver = drivers.find((driver) => driver.id === id);
 
   res.status(200).send(selectedDriver);
 });
