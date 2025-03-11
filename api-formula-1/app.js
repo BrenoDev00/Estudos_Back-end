@@ -49,6 +49,30 @@ app.post(baseAPIroute + "/drivers", (req, res) => {
   console.log(newDriver);
 });
 
+app.put(baseAPIroute + "/drivers/:id", (req, res) => {
+  const { id } = req.params;
+
+  const selectedDriver = drivers.find((driver) => driver.id === id);
+
+  for (const key in selectedDriver) {
+    if (req.body[key]) {
+      selectedDriver[key] = req.body[key];
+    }
+  }
+
+  drivers.sort((b, a) => {
+    if (a.points > b.points) return 1;
+
+    if (b.points > a.points) return -1;
+
+    return 0;
+  });
+
+  res.status(201).send("Piloto editado com sucesso!");
+
+  console.log(selectedDriver);
+});
+
 const port = 3001;
 
 app.listen(port, () => console.log("API rodando na porta 3001"));
