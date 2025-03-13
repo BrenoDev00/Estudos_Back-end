@@ -1,4 +1,5 @@
 import express from "express"; // instancia a principal função do pacote express
+import Joi from "joi";
 import { drivers } from "./data.js";
 import { randomUUID } from "node:crypto";
 
@@ -34,6 +35,20 @@ app.get(baseAPIroute + "/drivers/:id", (req, res) => {
 });
 
 app.post(baseAPIroute + "/drivers", (req, res) => {
+  const driverSchema = Joi.object({
+    name: Joi.string().min(3).max(64).required(),
+    team: Joi.string().min(3).max(64).required(),
+    points: Joi.number().min(0).max(1000).default(0),
+  });
+
+  const { error } = driverSchema.validate(req.body);
+
+  if (error) {
+    return res
+      .status(400)
+      .send("Não foi possível cadastrar o piloto, tente novamente.");
+  }
+
   const newDriver = { ...req.body, id: randomUUID() };
 
   drivers.push(newDriver);
