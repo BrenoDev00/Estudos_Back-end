@@ -28,6 +28,8 @@ app.get(baseAPIroute + "/drivers/:id", (req, res) => {
 
   const selectedDriver = drivers.find((driver) => driver.id === id);
 
+  if (!selectedDriver) return res.status(404).send("Piloto não encontrado.");
+
   res.status(200).send(selectedDriver);
 });
 
@@ -54,6 +56,8 @@ app.put(baseAPIroute + "/drivers/:id", (req, res) => {
 
   const selectedDriver = drivers.find((driver) => driver.id === id);
 
+  if (!selectedDriver) return res.status(404).send("Piloto não encontrado.");
+
   for (const key in selectedDriver) {
     if (req.body[key]) {
       selectedDriver[key] = req.body[key];
@@ -78,6 +82,8 @@ app.delete(baseAPIroute + "/drivers/:id", (req, res) => {
 
   const selectedDriver = drivers.find((driver) => driver.id == id);
 
+  if (!selectedDriver) return res.status(404).send("Piloto não encontrado.");
+
   const selectedDriverIndex = drivers.indexOf(selectedDriver);
 
   drivers.splice(selectedDriverIndex, 1);
@@ -90,7 +96,7 @@ app.delete(baseAPIroute + "/drivers/:id", (req, res) => {
     return 0;
   });
 
-  res.status(200).send("Piloto excluído com sucesso");
+  res.status(200).send("Piloto excluído com sucesso!");
 
   console.log(selectedDriver);
 });
