@@ -68,7 +68,29 @@ app.put(baseAPIroute + "/drivers/:id", (req, res) => {
     return 0;
   });
 
-  res.status(201).send("Piloto editado com sucesso!");
+  res.status(200).send("Piloto editado com sucesso!");
+
+  console.log(selectedDriver);
+});
+
+app.delete(baseAPIroute + "/drivers/:id", (req, res) => {
+  const { id } = req.params;
+
+  const selectedDriver = drivers.find((driver) => driver.id == id);
+
+  const selectedDriverIndex = drivers.indexOf(selectedDriver);
+
+  drivers.splice(selectedDriverIndex, 1);
+
+  drivers.sort((b, a) => {
+    if (a.points > b.points) return 1;
+
+    if (b.points > a.points) return -1;
+
+    return 0;
+  });
+
+  res.status(200).send("Piloto excluído com sucesso");
 
   console.log(selectedDriver);
 });
