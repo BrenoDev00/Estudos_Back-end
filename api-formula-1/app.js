@@ -14,6 +14,20 @@ app.get(baseAPIroute + "/teams", (req, res) => {
   res.status(200).send(teams);
 });
 
+app.get(baseAPIroute + "/teams/standings/:position", (req, res) => {
+  const teamSchema = Joi.number().min(1).max(teams.length);
+
+  const { position } = req.params;
+
+  const { error } = teamSchema.validate(position);
+
+  if (error) return res.status(400).send("Informe uma posição válida.");
+
+  const selectedTeam = teams[position - 1];
+
+  res.status(200).send(selectedTeam);
+});
+
 // o get é usado para obter o resultado de um endpoint
 app.get(baseAPIroute + "/drivers", (req, res) => {
   res.status(200).send(drivers);
