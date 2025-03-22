@@ -1,0 +1,15 @@
+{
+  "name": "middleware",
+  "version": "1.0.0",
+  "description": "aprendendo sobre middlewares.",
+  "main": "app.js",
+  "scripts": {
+    "dev": "node --watch ."
+  },
+  "author": "Breno",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "type": "module"
+}
