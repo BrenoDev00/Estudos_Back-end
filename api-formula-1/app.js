@@ -1,7 +1,12 @@
 import express from "express"; // instancia a principal função do pacote express
-import Joi from "joi";
 import { drivers, generateTeamsArray } from "./data.js";
 import { randomUUID } from "node:crypto";
+import {
+  teamSchema,
+  positionSchema,
+  driverSchema,
+  updateDriverSchema,
+} from "./schemas.js";
 
 const app = express();
 
@@ -18,8 +23,6 @@ app.get(baseAPIroute + "/teams", (req, res) => {
 
 app.get(baseAPIroute + "/teams/standings/:position", (req, res) => {
   const teams = generateTeamsArray();
-
-  const teamSchema = Joi.number().min(1).max(teams.length);
 
   const { position } = req.params;
 
@@ -39,8 +42,6 @@ app.get(baseAPIroute + "/drivers", (req, res) => {
 
 // ":position" é a sintaxe usada para parâmetros de rota
 app.get(baseAPIroute + "/drivers/standings/:position", (req, res) => {
-  const positionSchema = Joi.number().min(1).max(drivers.length);
-
   const { position } = req.params;
 
   const { error } = positionSchema.validate(position);
@@ -63,12 +64,6 @@ app.get(baseAPIroute + "/drivers/:id", (req, res) => {
 });
 
 app.post(baseAPIroute + "/drivers", (req, res) => {
-  const driverSchema = Joi.object({
-    name: Joi.string().min(3).max(64).required(),
-    team: Joi.string().min(3).max(64).required(),
-    points: Joi.number().min(0).max(1000).default(0),
-  });
-
   const { error } = driverSchema.validate(req.body);
 
   if (error) {
@@ -95,12 +90,6 @@ app.post(baseAPIroute + "/drivers", (req, res) => {
 });
 
 app.put(baseAPIroute + "/drivers/:id", (req, res) => {
-  const updateDriverSchema = Joi.object({
-    name: Joi.string().min(3).max(64),
-    team: Joi.string().min(3).max(64),
-    points: Joi.number().min(0).max(1000),
-  }).min(1);
-
   const { error } = updateDriverSchema.validate(res.body);
 
   if (error) return res.status(400).send("Insira informações válidas.");
