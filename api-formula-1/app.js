@@ -1,6 +1,6 @@
 import express from "express"; // instancia a principal função do pacote express
 import Joi from "joi";
-import { drivers, teams } from "./data.js";
+import { drivers, generateTeamsArray } from "./data.js";
 import { randomUUID } from "node:crypto";
 
 const app = express();
@@ -11,10 +11,14 @@ app.use(express.json());
 const baseAPIroute = "/api/v1";
 
 app.get(baseAPIroute + "/teams", (req, res) => {
+  const teams = generateTeamsArray();
+
   res.status(200).send(teams);
 });
 
 app.get(baseAPIroute + "/teams/standings/:position", (req, res) => {
+  const teams = generateTeamsArray();
+
   const teamSchema = Joi.number().min(1).max(teams.length);
 
   const { position } = req.params;

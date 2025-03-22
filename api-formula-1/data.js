@@ -135,20 +135,21 @@ export const drivers = driversInRandomOrder.sort((b, a) => {
   return 0;
 });
 
-export const teams = driversInRandomOrder
-  .reduce((acc, currentValue) => {
-    const { team, points } = currentValue;
+export const generateTeamsArray = () =>
+  driversInRandomOrder
+    .reduce((acc, currentValue) => {
+      const { team, points } = currentValue;
 
-    const teamObject = acc.find((t) => t.team === team);
+      const teamObject = acc.find((t) => t.team === team);
 
-    teamObject ? (teamObject.points += points) : acc.push({ team, points });
+      teamObject ? (teamObject.points += points) : acc.push({ team, points });
 
-    return acc;
-  }, [])
-  .sort((b, a) => {
-    if (a.points > b.points) return 1;
+      return acc;
+    }, [])
+    .sort((b, a) => {
+      if (a.points > b.points) return 1;
 
-    if (b.points > a.points) return -1;
+      if (b.points > a.points) return -1;
 
-    return 0;
-  });
+      return 0;
+    });
