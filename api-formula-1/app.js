@@ -1,6 +1,6 @@
 import express from "express"; // instancia a principal função do pacote express
 import Joi from "joi";
-import { drivers } from "./data.js";
+import { drivers, teams } from "./data.js";
 import { randomUUID } from "node:crypto";
 
 const app = express();
@@ -9,6 +9,10 @@ const app = express();
 app.use(express.json());
 
 const baseAPIroute = "/api/v1";
+
+app.get(baseAPIroute + "/teams", (req, res) => {
+  res.status(200).send(teams);
+});
 
 // o get é usado para obter o resultado de um endpoint
 app.get(baseAPIroute + "/drivers", (req, res) => {
