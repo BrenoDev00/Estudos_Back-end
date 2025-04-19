@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { BaseRepository } from "../repository/base-repository.js";
+import { UserRepository } from "../repository/user-repository.js";
 
 export const userRouter = Router();
 
 userRouter.get("/", async (req, res) => {
-  const result = await new BaseRepository().getAll("users");
+  const result = await new UserRepository().getAll();
 
   res.status(200).send(result);
 });
@@ -12,7 +12,7 @@ userRouter.get("/", async (req, res) => {
 userRouter.get("/:id", async (req, res) => {
   const { id } = req.params;
 
-  const result = await new BaseRepository().getById("users", id);
+  const result = await new UserRepository().getById(id);
 
   res.status(200).send(result);
 });
