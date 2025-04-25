@@ -21,4 +21,16 @@ export class UserRepository extends BaseRepository {
       throw error;
     }
   }
+
+  async createData(values) {
+    try {
+      return await super.createData("users", values, [
+        "name",
+        "surname",
+        "email",
+      ]);
+    } catch (error) {
+      throw error;
+    }
+  }
 }

@@ -16,3 +16,18 @@ userRouter.get("/:id", async (req, res) => {
 
   res.status(200).send(result);
 });
+
+userRouter.post("/", async (req, res) => {
+  const { body } = req;
+
+  const userColumns = ["name", "surname", "email"];
+
+  const values = userColumns.reduce((acc, columnName) => {
+    acc.push(body[columnName]);
+    return acc;
+  }, []);
+
+  await new UserRepository().createData(values);
+
+  res.status(201).send("Usuário criado com sucesso!");
+});
