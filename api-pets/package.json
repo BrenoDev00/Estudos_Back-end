@@ -1,15 +1,14 @@
 {
   "name": "typescript",
   "version": "1.0.0",
-  "description": "",
+  "description": "API RESTful de pets",
   "main": "./dist/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "tsc-watch --onSuccess \"node dist/server.js\""
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Breno",
+  "license": "MIT",
   "devDependencies": {
     "@types/express": "^5.0.3",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
@@ -23,6 +22,7 @@
   "type": "module",
   "dependencies": {
     "express": "^4.18.2",
+    "helmet": "^8.1.0",
     "tsc-watch": "^6.0.4",
     "uuid": "^11.1.0"
   }
