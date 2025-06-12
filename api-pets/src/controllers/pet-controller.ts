@@ -4,6 +4,14 @@ import { PetControllerInterface } from "../types/index.js";
 import { v4 as uuidv4 } from "uuid";
 
 export class PetController implements PetControllerInterface {
+  getPets(req: Request, res: Response) {
+    try {
+      return res.status(200).send(petList);
+    } catch (error) {
+      return res.status(500).send({ message: "Erro interno do servidor." });
+    }
+  }
+
   addPet(req: Request, res: Response) {
     try {
       const { body } = req;
