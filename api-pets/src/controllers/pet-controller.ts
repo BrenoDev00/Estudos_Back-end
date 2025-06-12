@@ -4,7 +4,7 @@ import { PetControllerInterface } from "../types/index.js";
 import { v4 as uuidv4 } from "uuid";
 
 export class PetController implements PetControllerInterface {
-  getPets(req: Request, res: Response) {
+  getPets(req: Request, res: Response): Response {
     try {
       return res.status(200).send(petList);
     } catch (error) {
@@ -12,7 +12,7 @@ export class PetController implements PetControllerInterface {
     }
   }
 
-  addPet(req: Request, res: Response) {
+  addPet(req: Request, res: Response): Response {
     try {
       const { body } = req;
 
