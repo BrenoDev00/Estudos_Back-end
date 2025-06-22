@@ -1,1 +1,2 @@
-export * from "./pet/index.js";
+export * from "./pet/index.ts";
+export * from "./http-status-code.type.ts";

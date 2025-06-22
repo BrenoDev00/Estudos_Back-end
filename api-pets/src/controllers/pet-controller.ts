@@ -1,14 +1,16 @@
 import { Request, Response } from "express";
 import { petList } from "../utils/pet-list.js";
-import { PetControllerInterface } from "../types/index.js";
+import { PetControllerInterface, HttpStatusCodeEnum } from "../types/index.js";
 import { v4 as uuidv4 } from "uuid";
 
 export class PetController implements PetControllerInterface {
   getPets(req: Request, res: Response): Response {
     try {
-      return res.status(200).send(petList);
+      return res.status(HttpStatusCodeEnum.Ok).send(petList);
     } catch (error) {
-      return res.status(500).send({ message: "Erro interno do servidor." });
+      return res
+        .status(HttpStatusCodeEnum.InternalError)
+        .send({ message: "Erro interno do servidor." });
     }
   }
 
@@ -18,9 +20,13 @@ export class PetController implements PetControllerInterface {
 
       petList.push({ id: uuidv4(), ...body });
 
-      return res.status(201).send({ message: "Pet adicionado com sucesso!" });
+      return res
+        .status(HttpStatusCodeEnum.Created)
+        .send({ message: "Pet adicionado com sucesso!" });
     } catch (error) {
-      return res.status(500).send({ message: "Erro interno do servidor." });
+      return res
+        .status(HttpStatusCodeEnum.InternalError)
+        .send({ message: "Erro interno do servidor." });
     }
   }
 }
