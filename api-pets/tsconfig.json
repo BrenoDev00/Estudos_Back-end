@@ -8,6 +8,8 @@
     "noEmitOnError": true,
     "noUnusedLocals": true,
     "allowImportingTsExtensions": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
     "noEmit": true,
     "outDir": "./dist"
   },

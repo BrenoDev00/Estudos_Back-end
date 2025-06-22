@@ -9,6 +9,7 @@
   "keywords": [],
   "author": "Breno",
   "license": "MIT",
+  "type": "module",
   "devDependencies": {
     "@types/express": "^5.0.3",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
@@ -19,11 +20,13 @@
     "eslint-plugin-promise": "^6.1.1",
     "typescript": "^5.2.2"
   },
-  "type": "module",
   "dependencies": {
     "express": "^4.18.2",
     "helmet": "^8.1.0",
+    "reflect-metadata": "^0.2.2",
+    "sqlite3": "^5.1.7",
     "tsc-watch": "^6.0.4",
+    "typeorm": "^0.3.25",
     "uuid": "^11.1.0"
   }
 }
