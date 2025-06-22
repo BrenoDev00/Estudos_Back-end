@@ -1,2 +1,2 @@
-export * from "./pet-controller.type.ts";
-export * from "./pet.type.ts";
+export * from "./pet-controller.type.js";
+export * from "./pet.type.js";

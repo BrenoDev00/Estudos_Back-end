@@ -1,10 +1,18 @@
 import { Request, Response } from "express";
 import { petList } from "../utils/pet-list.js";
-import { PetControllerInterface, HttpStatusCodeEnum } from "../types/index.js";
+import {
+  PetControllerInterface,
+  HttpStatusCodeEnum,
+  PetInterface,
+  MessageResponse,
+} from "../types/index.js";
 import { v4 as uuidv4 } from "uuid";
 
 export class PetController implements PetControllerInterface {
-  getPets(req: Request, res: Response): Response {
+  getPets(
+    req: Request,
+    res: Response<MessageResponse | PetInterface[]>
+  ): Response {
     try {
       return res.status(HttpStatusCodeEnum.Ok).send(petList);
     } catch (error) {
@@ -14,7 +22,10 @@ export class PetController implements PetControllerInterface {
     }
   }
 
-  addPet(req: Request, res: Response): Response {
+  addPet(
+    req: Request<{}, {}, Omit<PetInterface, "id">>,
+    res: Response<MessageResponse>
+  ): Response {
     try {
       const { body } = req;
 
