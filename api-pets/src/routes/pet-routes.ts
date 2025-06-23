@@ -9,9 +9,9 @@ const petRepository = new PetRepository(
   AppDataSource.getRepository("PetEntity")
 );
 
-// petRouter.get("/", (req: Request, res: Response) => {
-//   new PetController(petRepository).getPets(req, res);
-// });
+petRouter.get("/", (req: Request, res: Response) => {
+  new PetController(petRepository).getPets(req, res);
+});
 
 petRouter.post("/", (req: Request, res: Response) => {
   new PetController(petRepository).addPet(req, res);

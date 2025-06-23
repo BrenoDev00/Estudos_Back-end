@@ -10,9 +10,9 @@ export class PetRepository implements PetRepositoryInterface {
     this.repository = repository;
   }
 
-  // getPets(): PetEntity[] {
-  //   return
-  // }
+  async getPets(): Promise<PetEntity[]> {
+    return await this.repository.find();
+  }
 
   addPet(pet: PetEntity): void {
     this.repository.save(pet);

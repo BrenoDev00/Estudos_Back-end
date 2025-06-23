@@ -15,12 +15,14 @@ export class PetController implements PetControllerInterface {
     this.repository = repository;
   }
 
-  getPets(
+  async getPets(
     req: Request,
     res: Response<ResponseMensageInterface | PetInterface[]>
-  ): Response {
+  ): Promise<Response<ResponseMensageInterface | PetInterface[]>> {
     try {
-      return res.status(HttpStatusCodeEnum.Ok).send({ message: "temp" });
+      const petList = await this.repository.getPets();
+
+      return res.status(HttpStatusCodeEnum.Ok).send(petList);
     } catch (error) {
       return res
         .status(HttpStatusCodeEnum.InternalError)
