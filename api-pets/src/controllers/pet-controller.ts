@@ -1,17 +1,23 @@
 import { Request, Response } from "express";
-import { petList } from "../utils/pet-list.js";
+import { PetRepository } from "../repositories/index.js";
 import {
   PetControllerInterface,
   HttpStatusCodeEnum,
   PetInterface,
-  MessageResponse,
+  ResponseMensageInterface,
 } from "../types/index.js";
 import { v4 as uuidv4 } from "uuid";
 
 export class PetController implements PetControllerInterface {
+  private repository: PetRepository;
+
+  constructor(repository: PetRepository) {
+    this.repository = repository;
+  }
+
   getPets(
     req: Request,
-    res: Response<MessageResponse | PetInterface[]>
+    res: Response<ResponseMensageInterface | PetInterface[]>
   ): Response {
     try {
       return res.status(HttpStatusCodeEnum.Ok).send(petList);
@@ -24,12 +30,12 @@ export class PetController implements PetControllerInterface {
 
   addPet(
     req: Request<{}, {}, Omit<PetInterface, "id">>,
-    res: Response<MessageResponse>
+    res: Response<ResponseMensageInterface>
   ): Response {
     try {
       const { body } = req;
 
-      petList.push({ id: uuidv4(), ...body });
+      this.repository.addPet({ id: uuidv4(), ...body });
 
       return res
         .status(HttpStatusCodeEnum.Created)

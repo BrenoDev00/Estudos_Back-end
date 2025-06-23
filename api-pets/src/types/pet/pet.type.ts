@@ -1,7 +1,9 @@
+import { SpeciesEnum } from "../species.type.js";
+
 export interface PetInterface {
   id: string;
   name: string;
-  specie: string;
-  age: number;
+  specie: SpeciesEnum;
+  birthdayDate: Date;
   adopted: boolean;
 }

@@ -1,1 +1,2 @@
-export * from "./pet-entity.js";
+export * from "./entities/index.js";
+export * from "./pet-repository.js";

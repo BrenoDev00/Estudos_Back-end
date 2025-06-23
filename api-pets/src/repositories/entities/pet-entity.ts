@@ -1,16 +1,16 @@
 import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
-import { SpeciesEnum } from "../types/index.js";
+import { SpeciesEnum } from "../../types/index.js";
 
 @Entity()
 export class PetEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: string;
   @Column()
   name: string;
   @Column()
-  especie: SpeciesEnum;
+  specie: SpeciesEnum;
   @Column()
-  birthDate: Date;
+  birthdayDate: Date;
   @Column()
   adopted: boolean;
 }
