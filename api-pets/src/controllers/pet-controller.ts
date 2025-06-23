@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { PetRepository } from "../repositories/index.js";
+import { PetEntity, PetRepository } from "../repositories/index.js";
 import {
   PetControllerInterface,
   HttpStatusCodeEnum,
@@ -20,7 +20,7 @@ export class PetController implements PetControllerInterface {
     res: Response<ResponseMensageInterface | PetInterface[]>
   ): Response {
     try {
-      return res.status(HttpStatusCodeEnum.Ok).send(petList);
+      return res.status(HttpStatusCodeEnum.Ok).send({ message: "temp" });
     } catch (error) {
       return res
         .status(HttpStatusCodeEnum.InternalError)
@@ -35,7 +35,15 @@ export class PetController implements PetControllerInterface {
     try {
       const { body } = req;
 
-      this.repository.addPet({ id: uuidv4(), ...body });
+      const newPet = new PetEntity();
+
+      newPet.id = uuidv4();
+      newPet.name = body.name;
+      newPet.specie = body.specie;
+      newPet.birthdayDate = new Date(body.birthdayDate);
+      newPet.adopted = Boolean(body.adopted);
+
+      this.repository.addPet(newPet);
 
       return res
         .status(HttpStatusCodeEnum.Created)

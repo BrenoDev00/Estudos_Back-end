@@ -3,11 +3,11 @@ import { SpeciesEnum } from "../../types/index.js";
 
 @Entity()
 export class PetEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn("uuid")
   id: string;
   @Column()
   name: string;
-  @Column()
+  @Column({ type: "text" })
   specie: SpeciesEnum;
   @Column()
   birthdayDate: Date;

@@ -10,7 +10,9 @@ export class PetRepository implements PetRepositoryInterface {
     this.repository = repository;
   }
 
-  getPets(): PetEntity[] {}
+  // getPets(): PetEntity[] {
+  //   return
+  // }
 
   addPet(pet: PetEntity): void {
     this.repository.save(pet);

@@ -3,7 +3,7 @@ import { UUIDTypes } from "uuid";
 
 export interface PetRepositoryInterface {
   addPet(pet: PetEntity): void;
-  getPets(): PetEntity[];
+  // getPets(): PetEntity[];
   updatePet(id: UUIDTypes, pet: PetEntity): void;
   deletePet(id: UUIDTypes, pet: PetEntity): void;
 }
