@@ -30,10 +30,10 @@ export class PetController implements PetControllerInterface {
     }
   }
 
-  addPet(
+  async addPet(
     req: Request<{}, {}, Omit<PetInterface, "id">>,
     res: Response<ResponseMensageInterface>
-  ): Response {
+  ): Promise<Response<ResponseMensageInterface>> {
     try {
       const { body } = req;
 

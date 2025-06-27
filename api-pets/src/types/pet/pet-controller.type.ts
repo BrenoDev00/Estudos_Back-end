@@ -11,5 +11,5 @@ export interface PetControllerInterface {
   addPet: (
     req: Request<{}, {}, Omit<PetInterface, "id">>,
     res: Response<ResponseMensageInterface>
-  ) => Response;
+  ) => Promise<Response<ResponseMensageInterface>>;
 }

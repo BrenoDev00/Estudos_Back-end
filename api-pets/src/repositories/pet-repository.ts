@@ -14,11 +14,11 @@ export class PetRepository implements PetRepositoryInterface {
     return await this.repository.find();
   }
 
-  addPet(pet: PetEntity): void {
+  async addPet(pet: PetEntity): Promise<void> {
     this.repository.save(pet);
   }
 
-  updatePet(id: UUIDTypes, pet: PetEntity): void {}
+  async updatePet(id: UUIDTypes, pet: PetEntity): Promise<void> {}
 
-  deletePet(id: UUIDTypes, pet: PetEntity): void {}
+  async deletePet(id: UUIDTypes, pet: PetEntity): Promise<void> {}
 }
