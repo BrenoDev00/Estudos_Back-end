@@ -1,9 +1,10 @@
 {
   "name": "prisma",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/app.js",
   "scripts": {
-    "start": "node index.js"
+    "dev": "ts-node-dev src/app.ts",
+    "start": "tsc"
   },
   "keywords": [],
   "author": "",
