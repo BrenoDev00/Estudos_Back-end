@@ -14,11 +14,14 @@ model user {
   nickname   String?  @db.VarChar(35)
   email      String   @unique
   created_at DateTime @default(now()) @db.Timestamp(6)
+  age        Int?
+  new_column String
 }
 
 model task {
   id         String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   content    String   @db.VarChar(35)
   is_public  Boolean
+  new_column String?
   created_at DateTime @default(now()) @db.Timestamp(6)
 }
