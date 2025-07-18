@@ -1,10 +1,14 @@
 import { prisma } from "./config/data-base";
 
 async function main() {
-  const users = await prisma.user.findMany();
-  const tasks = await prisma.task.findMany();
-  console.log(users);
-  console.log(tasks);
+  const products = await prisma.product.findMany({
+    select: {
+      name: true,
+      priceInCents: true,
+    },
+  });
+
+  console.log(products);
 }
 
 main()

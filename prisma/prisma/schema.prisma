@@ -8,20 +8,33 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model user {
-  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name       String   @db.VarChar(64)
-  nickname   String?  @db.VarChar(35)
-  email      String   @unique
-  created_at DateTime @default(now()) @db.Timestamp(6)
-  age        Int?
-  new_column String
+model User {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name      String   @db.VarChar(64)
+  nickname  String?  @db.VarChar(35)
+  email     String   @unique
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+  age       Int?
+  newColumn String   @map("new_column")
+
+  @@map("user")
 }
 
-model task {
-  id         String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  content    String   @db.VarChar(35)
-  is_public  Boolean
-  new_column String?
-  created_at DateTime @default(now()) @db.Timestamp(6)
+model Task {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  content   String   @db.VarChar(35)
+  isPublic  Boolean  @map("is_public")
+  newColumn String?  @map("new_column")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(6)
+
+  @@map("task")
+}
+
+model Product {
+  id             String  @id @default(uuid())
+  name           String
+  available      Boolean
+  priceInCents Int @map("price_in_cents")
+
+  @@map("product")
 }
