@@ -18,3 +18,40 @@ const ex3 = prisma.product.findUnique({
     id: "sdjfkjksdfkjsdkfdf",
   },
 });
+
+// create(): adicionar dados no banco.
+const ex4 = prisma.product.create({
+  data: {
+    name: "tal",
+    available: true,
+    priceInCents: 343334,
+  },
+});
+
+// createMany(): adicionar vários registros de uma vez.
+const ex5 = prisma.product.createMany({
+  data: [
+    {
+      name: "tal",
+      priceInCents: 34343,
+      available: true,
+    },
+    {
+      name: "sdfdsf",
+      priceInCents: 34343,
+      available: false,
+    },
+  ],
+});
+
+// createManyAndReturn(): criar registro(s) e retorna valores ou um valor específico criado.
+const ex6 = prisma.product.createManyAndReturn({
+  select: { id: true }, //retorna o id após a adição deste registro.
+  data: [
+    {
+      name: "tal",
+      priceInCents: 343434,
+      available: false,
+    },
+  ],
+});

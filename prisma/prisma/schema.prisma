@@ -31,10 +31,11 @@ model Task {
 }
 
 model Product {
-  id             String  @id @default(uuid())
-  name           String
-  available      Boolean
-  priceInCents Int @map("price_in_cents")
+  id           String   @id @default(uuid())
+  name         String
+  available    Boolean
+  priceInCents Int      @map("price_in_cents")
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamp(6)
 
   @@map("product")
 }
