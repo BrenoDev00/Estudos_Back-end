@@ -55,3 +55,23 @@ const ex6 = prisma.product.createManyAndReturn({
     },
   ],
 });
+
+// update(): atualiza 1 registro.
+const ex7 = prisma.product.update({
+  where: { id: "sdjfdsjlfds" },
+  data: {
+    name: "tal",
+  },
+});
+
+// updateMany(): atualiza múltiplos registros.
+const ex8 = prisma.product.updateMany({
+  data: {
+    available: true,
+  },
+
+  // where é opcional no updateMany
+  where: {
+    id: { in: ["jksdlfjdsfdsjsdkf", "jfldslkfkdskfdsjfkds"] },
+  },
+});
