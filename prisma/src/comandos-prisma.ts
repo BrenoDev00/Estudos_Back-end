@@ -75,3 +75,17 @@ const ex8 = prisma.product.updateMany({
     id: { in: ["jksdlfjdsfdsjsdkf", "jfldslkfkdskfdsjfkds"] },
   },
 });
+
+// delete(): exclui 1 registro.
+const ex9 = prisma.product.delete({
+  where: {
+    id: "jsdfksdjkfjdskf",
+  },
+});
+
+// deleteMany(): exclui vários registros.
+const ex10 = prisma.product.deleteMany({
+  where: {
+    name: "dsjlfkjdskfkds",
+  },
+});

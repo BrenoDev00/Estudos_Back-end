@@ -34,23 +34,38 @@ import { prisma } from "./config/data-base";
 //   console.log("id retornado", productId);
 // }
 
-async function atualizaRegistro() {
-  await prisma.product.updateMany({
-    data: {
-      available: true,
-    },
+// async function atualizaRegistro() {
+//   await prisma.product.updateMany({
+//     data: {
+//       available: true,
+//     },
+//     where: {
+//       id: {
+//         in: [
+//           "72875add-4dbe-427b-b9cd-b10f59f91bc3",
+//           "eec0ce06-834f-43f1-8db3-5142035a6500",
+//         ],
+//       },
+//     },
+//   });
+// }
+
+// atualizaRegistro()
+//   .then()
+//   .catch((error) => console.error(error))
+//   .finally(async () => {
+//     await prisma.$disconnect();
+//   });
+
+async function excluirRegistro() {
+  await prisma.product.delete({
     where: {
-      id: {
-        in: [
-          "72875add-4dbe-427b-b9cd-b10f59f91bc3",
-          "eec0ce06-834f-43f1-8db3-5142035a6500",
-        ],
-      },
+      id: "cd0316b4-30df-484e-8c0f-ca1e7c65e06e",
     },
   });
 }
 
-atualizaRegistro()
+excluirRegistro()
   .then()
   .catch((error) => console.error(error))
   .finally(async () => {
