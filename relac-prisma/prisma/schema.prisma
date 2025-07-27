@@ -1,0 +1,37 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+// As tabelas Movie e MovieDetails possuem relacionamento 1:1.
+
+model Movie {
+  id String @id @default(uuid())
+  title String
+  releaseDate DateTime @default(now()) @map("release_date")
+  movieDetailId String @unique @map("movie_detail_id")
+  detail MovieDetail @relation(fields: [movieDetailId], references: [id], onDelete: Cascade)
+
+@@map("movie")
+}
+
+model MovieDetail{
+  id String @id @default(uuid())
+  duration Int
+  description String 
+  Movie Movie?
+
+  @@map("movie_detail")
+}
