@@ -1,34 +1,19 @@
 import { prisma } from "./config/prisma";
 
 async function main() {
-  await prisma.movie.create({
-    data: {
-      title: "movie",
-      releaseDate: new Date(),
-      detail: {
-        create: {
-          description: "a movie",
-          duration: 1200,
-        },
-      },
-      director: {
-        create: {
-          name: "Director name",
-        },
-      },
-    },
+  await prisma.user.delete({
+    where: { id: "cfc3bfe0-8460-4b92-9f4e-1191f1424556" },
   });
 }
 
 async function listData() {
-  const result = await prisma.movie.findMany({
-    include: { detail: true, director: true },
+  const result = await prisma.user.findMany({
+    include: { registration: true },
   });
-
   console.log("items", result);
 }
 
-listData()
+main()
   .then()
   .catch((error) => console.error(error))
   .finally(async () => {

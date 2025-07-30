@@ -48,3 +48,39 @@ model Director{
 
   @@map("director")
 }
+
+
+
+// *models para praticar
+
+model User {
+  id String @id @default(uuid())
+  name String @db.VarChar(64)
+
+  post Post[]
+
+  registration Registration?
+
+  @@map("user")
+}
+
+model Post {
+  id String @id @default(uuid())
+  text String @db.VarChar(100)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  userId String @map("user_id")
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("post")
+}
+
+model Registration {
+  id String @id @default(uuid())
+  code Int 
+
+  userId String @unique @map("user_id")
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("registration")
+}
