@@ -11,11 +11,24 @@ async function main() {
           duration: 1200,
         },
       },
+      director: {
+        create: {
+          name: "Director name",
+        },
+      },
     },
   });
 }
 
-main()
+async function listData() {
+  const result = await prisma.movie.findMany({
+    include: { detail: true, director: true },
+  });
+
+  console.log("items", result);
+}
+
+listData()
   .then()
   .catch((error) => console.error(error))
   .finally(async () => {

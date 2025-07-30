@@ -16,13 +16,18 @@ datasource db {
 
 
 // As tabelas Movie e MovieDetails possuem relacionamento 1:1.
+// As tabelas Movie e Director possuem relacionamento 1:N.
 
 model Movie {
   id String @id @default(uuid())
   title String
   releaseDate DateTime @default(now()) @map("release_date")
+  
   movieDetailId String @unique @map("movie_detail_id")
   detail MovieDetail @relation(fields: [movieDetailId], references: [id], onDelete: Cascade)
+  
+  directorId String @map("director_id") 
+  director Director @relation(fields: [directorId], references: [id])
 
 @@map("movie")
 }
@@ -34,4 +39,12 @@ model MovieDetail{
   Movie Movie?
 
   @@map("movie_detail")
+}
+
+model Director{
+  id String @id @default(uuid())
+  name String @db.VarChar(55)
+  movie Movie[]
+
+  @@map("director")
 }
