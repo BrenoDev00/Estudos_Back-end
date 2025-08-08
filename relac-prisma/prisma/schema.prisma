@@ -17,6 +17,7 @@ datasource db {
 
 // As tabelas Movie e MovieDetails possuem relacionamento 1:1.
 // As tabelas Movie e Director possuem relacionamento 1:N.
+// As tabelas Movie e Category possuem relacionamento N:N.
 
 model Movie {
   id String @id @default(uuid())
@@ -28,6 +29,8 @@ model Movie {
   
   directorId String @map("director_id") 
   director Director @relation(fields: [directorId], references: [id])
+
+  CategoriesOnMovies CategoriesOnMovies[]
 
 @@map("movie")
 }
@@ -48,6 +51,26 @@ model Director{
 
   @@map("director")
 }
+
+
+model Category{
+  id String @id @default(uuid())
+  name String @unique
+
+  CategoriesOnMovies CategoriesOnMovies[]
+}
+
+// Model associativa do relacionamento Movie e Category (N:N)
+model CategoriesOnMovies{
+  id String @id @default(uuid())
+
+  movieId String @map("movie_id")
+  movie Movie @relation(fields: [movieId], references: [id])
+
+  categoryId String @map("category_id")
+  category Category @relation(fields: [categoryId], references: [id])
+}
+
 
 
 
