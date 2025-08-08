@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
+import { Contact } from "../../../generated/prisma";
 
-export interface IContactController {
-  getContacts(req: Request, res: Response): void;
+export interface IContacController {
+  getContacts(req: Request, res: Response): Promise<Response>;
 }

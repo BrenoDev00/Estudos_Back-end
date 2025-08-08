@@ -19,5 +19,32 @@ model Contact{
   id String @id @default(uuid())
   name String @db.VarChar(64)
 
+  phone Phone[]
+
+  address Address?
+
   @@map("contact")
+}
+
+model Phone {
+  id String @id @default(uuid())
+  title String @db.VarChar(54)
+  number String
+
+  contactId String @map("contact_id")
+  contact Contact @relation(fields: [contactId], references: [id], onDelete: Cascade)
+
+  @@map("phone")
+}
+
+model Address {
+  id String @id @default(uuid())
+  street String @db.VarChar(64)
+  zipCode String @map("zip_code")
+  number Int
+
+  contact_id String @unique @map("contact_id")
+  contact Contact @relation(fields: [contact_id], references: [id], onDelete: Cascade)
+
+  @@map("street")
 }
