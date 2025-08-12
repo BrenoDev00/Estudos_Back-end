@@ -5,14 +5,16 @@ import { contactSchema } from "../schemas/contact-schema";
 
 const contactRouter: Router = Router();
 
-contactRouter.get("/", async (_req: Request, res: Response) => {
-  await contactController.getContacts(_req, res);
+contactRouter.get("/", async (req: Request, res: Response) => {
+  await contactController.getContacts(req, res);
 });
 
 contactRouter.post(
   "/",
   schemaValidationMiddleware(contactSchema),
-  async (_req: Request, _res: Response) => {}
+  async (req: Request, res: Response) => {
+    await contactController.addContact(req, res);
+  }
 );
 
 export default contactRouter;

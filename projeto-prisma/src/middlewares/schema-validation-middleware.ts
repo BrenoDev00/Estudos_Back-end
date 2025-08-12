@@ -5,9 +5,9 @@ export function schemaValidationMiddleware(schema: ZodObject) {
   return (req: Request, res: Response, next: NextFunction) => {
     const schemaValidation = schema.safeParse(req.body);
 
-    const formattedErrorMessage = z.prettifyError(schemaValidation.error!);
-
     if (!schemaValidation.success) {
+      const formattedErrorMessage = z.prettifyError(schemaValidation.error);
+
       return res.status(400).send(formattedErrorMessage);
     }
 

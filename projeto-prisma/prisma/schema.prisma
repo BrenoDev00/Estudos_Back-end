@@ -43,8 +43,8 @@ model Address {
   zipCode String @map("zip_code")
   number Int
 
-  contact_id String @unique @map("contact_id")
-  contact Contact @relation(fields: [contact_id], references: [id], onDelete: Cascade)
+  contactId String @unique @map("contact_id")
+  contact Contact @relation(fields: [contactId], references: [id], onDelete: Cascade)
 
-  @@map("street")
+  @@map("address")
 }
