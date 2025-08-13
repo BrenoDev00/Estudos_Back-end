@@ -1,8 +1,9 @@
 import { Contact } from "../../generated/prisma";
-import { IContacController as IContactController } from "../types/controllers/contact-controller.type";
+import { IContactController } from "../types/controllers/contact-controller.type";
 import { Request, Response } from "express";
 import { contactRepository } from "../repositories/contact-repository";
 import { TAddContact } from "../types/add-contact.type";
+
 class ContactController implements IContactController {
   async getContacts(_req: Request, res: Response): Promise<Response> {
     try {
@@ -13,6 +14,23 @@ class ContactController implements IContactController {
       });
     } catch (error) {
       return res.status(500).send({ message: "Erro ao buscar contatos." });
+    }
+  }
+
+  async getContactById(req: Request, res: Response): Promise<Response> {
+    const { contactId } = req.params;
+
+    try {
+      const contactById: Contact = await contactRepository.getContactById(
+        contactId!
+      );
+
+      if (!contactById)
+        return res.status(404).send({ message: "Contato não encontrado." });
+
+      return res.status(200).send({ contact: contactById });
+    } catch (error) {
+      return res.status(500).send({ message: "Erro ao buscar contato." });
     }
   }
 

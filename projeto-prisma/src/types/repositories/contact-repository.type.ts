@@ -4,5 +4,7 @@ import { TAddContact } from "../add-contact.type";
 export interface IContactRepository {
   getAllContacts(): Promise<Contact[]>;
 
+  getContactById(contactId: string): Promise<Contact>;
+
   addContact(contact: TAddContact): Promise<TAddContact>;
 }

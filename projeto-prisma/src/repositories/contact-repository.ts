@@ -25,6 +25,29 @@ class ContactRepository implements IContactRepository {
     });
   }
 
+  async getContactById(contactId: string): Promise<Contact> {
+    return (await prisma.contact.findUnique({
+      where: { id: contactId },
+      include: {
+        phone: {
+          select: {
+            id: true,
+            title: true,
+            number: true,
+          },
+        },
+        address: {
+          select: {
+            id: true,
+            street: true,
+            zipCode: true,
+            number: true,
+          },
+        },
+      },
+    })) as Contact;
+  }
+
   async addContact(contact: TAddContact): Promise<TAddContact> {
     const { address, phone, name } = contact;
 

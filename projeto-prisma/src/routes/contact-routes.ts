@@ -9,6 +9,10 @@ contactRouter.get("/", async (req: Request, res: Response) => {
   await contactController.getContacts(req, res);
 });
 
+contactRouter.get("/:contactId", async (req: Request, res: Response) => {
+  await contactController.getContactById(req, res);
+});
+
 contactRouter.post(
   "/",
   schemaValidationMiddleware(contactSchema),
