@@ -3,7 +3,7 @@ import { IContactController } from "../types/controllers/contact-controller.type
 import { Request, Response } from "express";
 import { z } from "zod";
 import { contactService } from "../services/contact-service";
-import { contactSchema } from "../schemas/contact-schema";
+import { addContactSchema } from "../schemas/contact-schema";
 
 class ContactController implements IContactController {
   async getAllContacts(_req: Request, res: Response): Promise<Response> {
@@ -38,7 +38,7 @@ class ContactController implements IContactController {
   async addContact(req: Request, res: Response): Promise<Response> {
     const { body } = req;
 
-    const contactDataValidation = contactSchema.safeParse(body);
+    const contactDataValidation = addContactSchema.safeParse(body);
 
     if (!contactDataValidation.success) {
       const formattedContactErrors = z.prettifyError(
@@ -54,6 +54,26 @@ class ContactController implements IContactController {
       return res.status(201).send({ message: "Contato adicionado." });
     } catch (error) {
       return res.status(500).send({ message: "Erro ao adicionar contato." });
+    }
+  }
+
+  async deleteContactById(req: Request, res: Response): Promise<Response> {
+    const { contactId } = req.params;
+
+    const contactById: Contact = await contactService.getContactById(
+      contactId!
+    );
+
+    if (!contactById) {
+      return res.status(404).send({ message: "Contato não encontrado." });
+    }
+
+    try {
+      await contactService.deleteContactById(contactId!);
+
+      return res.status(204).send();
+    } catch (error) {
+      return res.status(500).send({ message: "Erro ao excluir contato." });
     }
   }
 }

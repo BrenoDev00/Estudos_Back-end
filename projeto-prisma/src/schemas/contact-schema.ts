@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const contactSchema = z.object({
+export const addContactSchema = z.object({
   name: z.string().min(3).max(64),
   phone: z.array(
     z.object({

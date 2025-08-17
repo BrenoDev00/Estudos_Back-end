@@ -7,4 +7,6 @@ export interface IContactService {
   getContactById(contactId: string): Promise<Contact>;
 
   addContact(contact: TAddContact): Promise<TAddContact>;
+
+  deleteContactById(contactId: string): Promise<Contact>;
 }

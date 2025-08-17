@@ -15,6 +15,10 @@ export class ContactService implements IContactService {
   async addContact(contact: TAddContact): Promise<TAddContact> {
     return await contactRepository.addContact(contact);
   }
+
+  async deleteContactById(contactId: string): Promise<Contact> {
+    return await contactRepository.deleteContactById(contactId);
+  }
 }
 
 export const contactService = new ContactService();

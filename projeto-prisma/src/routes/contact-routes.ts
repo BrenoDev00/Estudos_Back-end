@@ -15,4 +15,8 @@ contactRouter.post("/", async (req: Request, res: Response) => {
   await contactController.addContact(req, res);
 });
 
+contactRouter.delete("/:contactId", async (req: Request, res: Response) => {
+  await contactController.deleteContactById(req, res);
+});
+
 export default contactRouter;

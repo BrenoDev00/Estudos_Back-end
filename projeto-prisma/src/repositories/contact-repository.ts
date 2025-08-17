@@ -69,6 +69,12 @@ class ContactRepository implements IContactRepository {
       },
     })) as TAddContact;
   }
+
+  async deleteContactById(contactId: string): Promise<Contact> {
+    return await prisma.contact.delete({
+      where: { id: contactId },
+    });
+  }
 }
 
 export const contactRepository = new ContactRepository();
