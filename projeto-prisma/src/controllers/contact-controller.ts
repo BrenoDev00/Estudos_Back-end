@@ -1,12 +1,12 @@
 import { Contact } from "../../generated/prisma";
 import { IContactController } from "../types/controllers/contact-controller.type";
 import { Request, Response } from "express";
-import { contactRepository } from "../repositories/contact-repository";
-import { TAddContact } from "../types/add-contact.type";
+import { z } from "zod";
 import { contactService } from "../services/contact-service";
+import { contactSchema } from "../schemas/contact-schema";
 
 class ContactController implements IContactController {
-  async getContacts(_req: Request, res: Response): Promise<Response> {
+  async getAllContacts(_req: Request, res: Response): Promise<Response> {
     try {
       const contactsList: Contact[] = await contactService.getAllContacts();
 
@@ -38,10 +38,18 @@ class ContactController implements IContactController {
   async addContact(req: Request, res: Response): Promise<Response> {
     const { body } = req;
 
-    const contactData = body as TAddContact;
+    const contactDataValidation = contactSchema.safeParse(body);
+
+    if (!contactDataValidation.success) {
+      const formattedContactErrors = z.prettifyError(
+        contactDataValidation.error
+      );
+
+      return res.status(400).send(formattedContactErrors);
+    }
 
     try {
-      await contactRepository.addContact(contactData);
+      await contactService.addContact(body);
 
       return res.status(201).send({ message: "Contato adicionado." });
     } catch (error) {
