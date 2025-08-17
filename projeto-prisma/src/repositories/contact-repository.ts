@@ -2,6 +2,7 @@ import { prisma } from "../config/prisma";
 import { Contact } from "../../generated/prisma";
 import { IContactRepository } from "../types/repositories/contact-repository.type";
 import { TAddContact } from "../types/add-contact.type";
+import { TUpdateContact } from "../types/update-contact.type";
 class ContactRepository implements IContactRepository {
   async getAllContacts(): Promise<Contact[]> {
     return await prisma.contact.findMany({
@@ -68,6 +69,35 @@ class ContactRepository implements IContactRepository {
         address: true,
       },
     })) as TAddContact;
+  }
+
+  async updateContactById(
+    contactId: string,
+    contact: TUpdateContact
+  ): Promise<TUpdateContact> {
+    const { name, phone, address } = contact;
+
+    return (await prisma.contact.update({
+      where: { id: contactId },
+
+      data: {
+        name: name,
+        phone: {
+          deleteMany: {},
+          create: phone,
+        },
+        address: {
+          update: {
+            where: { contactId: contactId },
+            data: address,
+          },
+        },
+      },
+      include: {
+        address: true,
+        phone: true,
+      },
+    })) as TUpdateContact;
   }
 
   async deleteContactById(contactId: string): Promise<Contact> {

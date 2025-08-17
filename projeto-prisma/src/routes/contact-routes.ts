@@ -15,6 +15,10 @@ contactRouter.post("/", async (req: Request, res: Response) => {
   await contactController.addContact(req, res);
 });
 
+contactRouter.put("/:contactId", async (req: Request, res: Response) => {
+  await contactController.updateContactById(req, res);
+});
+
 contactRouter.delete("/:contactId", async (req: Request, res: Response) => {
   await contactController.deleteContactById(req, res);
 });

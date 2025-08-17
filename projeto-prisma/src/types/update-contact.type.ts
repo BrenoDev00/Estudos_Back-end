@@ -1,4 +1,4 @@
 import { z } from "zod";
 import { addContactSchema } from "../schemas/add-contact-schema";
 
-export type TAddContact = z.infer<typeof addContactSchema>;
+export type TUpdateContact = z.infer<typeof addContactSchema>;

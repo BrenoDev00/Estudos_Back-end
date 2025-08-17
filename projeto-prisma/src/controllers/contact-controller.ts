@@ -3,7 +3,8 @@ import { IContactController } from "../types/controllers/contact-controller.type
 import { Request, Response } from "express";
 import { z } from "zod";
 import { contactService } from "../services/contact-service";
-import { addContactSchema } from "../schemas/contact-schema";
+import { addContactSchema } from "../schemas/add-contact-schema";
+import { updatContactSchema } from "../schemas/update-contact-schema";
 
 class ContactController implements IContactController {
   async getAllContacts(_req: Request, res: Response): Promise<Response> {
@@ -54,6 +55,38 @@ class ContactController implements IContactController {
       return res.status(201).send({ message: "Contato adicionado." });
     } catch (error) {
       return res.status(500).send({ message: "Erro ao adicionar contato." });
+    }
+  }
+
+  async updateContactById(req: Request, res: Response): Promise<Response> {
+    const { contactId } = req.params;
+    const { body } = req;
+
+    const contactById: Contact = await contactService.getContactById(
+      contactId!
+    );
+
+    if (!contactById)
+      return res.status(404).send({ message: "Contato não encontrado." });
+
+    const contactDataValidation = updatContactSchema.safeParse(body);
+
+    if (!contactDataValidation.success) {
+      const formattedContactErrors = z.prettifyError(
+        contactDataValidation.error
+      );
+
+      return res.status(400).send(formattedContactErrors);
+    }
+
+    try {
+      await contactService.updateContactById(contactId!, body);
+
+      return res.status(200).send(contactById.id);
+    } catch (error) {
+      return res
+        .status(500)
+        .send({ message: "Não foi possível atualizar o contato." });
     }
   }
 

@@ -7,5 +7,7 @@ export interface IContactController {
 
   addContact(req: Request, res: Response): Promise<Response>;
 
+  updateContactById(req: Request, res: Response): Promise<Response>;
+
   deleteContactById(req: Request, res: Response): Promise<Response>;
 }
