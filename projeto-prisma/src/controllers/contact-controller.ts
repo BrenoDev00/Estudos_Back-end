@@ -1,4 +1,3 @@
-import { Contact } from "../../generated/prisma";
 import { IContactController } from "../types/controllers/contact-controller.type";
 import { Request, Response } from "express";
 import { z } from "zod";
