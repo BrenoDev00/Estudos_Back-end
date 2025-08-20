@@ -1,11 +1,13 @@
 import { Contact } from "../../../generated/prisma";
 import { TAddContact } from "../add-contact.type";
+import { TAllContactsData } from "../all-contacts-data.type";
+import { TContactData } from "../contact-data.type";
 import { TUpdateContact } from "../update-contact.type";
 
 export interface IContactService {
-  getAllContacts(): Promise<Contact[]>;
+  getAllContacts(): Promise<TAllContactsData[]>;
 
-  getContactById(contactId: string): Promise<Contact>;
+  getContactById(contactId: string): Promise<TContactData>;
 
   addContact(contact: TAddContact): Promise<TAddContact>;
 

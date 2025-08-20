@@ -5,11 +5,14 @@ import { z } from "zod";
 import { contactService } from "../services/contact-service";
 import { addContactSchema } from "../schemas/add-contact-schema";
 import { updatContactSchema } from "../schemas/update-contact-schema";
+import { TAllContactsData } from "../types/all-contacts-data.type";
+import { TContactData } from "../types/contact-data.type";
 
 class ContactController implements IContactController {
   async getAllContacts(_req: Request, res: Response): Promise<Response> {
     try {
-      const contactsList: Contact[] = await contactService.getAllContacts();
+      const contactsList: TAllContactsData[] =
+        await contactService.getAllContacts();
 
       return res.status(200).send({
         contacts: contactsList,
@@ -23,7 +26,7 @@ class ContactController implements IContactController {
     const { contactId } = req.params;
 
     try {
-      const contactById: Contact = await contactService.getContactById(
+      const contactById: TContactData = await contactService.getContactById(
         contactId!
       );
 
@@ -62,7 +65,7 @@ class ContactController implements IContactController {
     const { contactId } = req.params;
     const { body } = req;
 
-    const contactById: Contact = await contactService.getContactById(
+    const contactById: TContactData = await contactService.getContactById(
       contactId!
     );
 
@@ -93,7 +96,7 @@ class ContactController implements IContactController {
   async deleteContactById(req: Request, res: Response): Promise<Response> {
     const { contactId } = req.params;
 
-    const contactById: Contact = await contactService.getContactById(
+    const contactById: TContactData = await contactService.getContactById(
       contactId!
     );
 

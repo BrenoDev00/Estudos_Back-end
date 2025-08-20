@@ -3,9 +3,11 @@ import { Contact } from "../../generated/prisma";
 import { IContactRepository } from "../types/repositories/contact-repository.type";
 import { TAddContact } from "../types/add-contact.type";
 import { TUpdateContact } from "../types/update-contact.type";
+import { TAllContactsData } from "../types/all-contacts-data.type";
+import { TContactData } from "../types/contact-data.type";
 class ContactRepository implements IContactRepository {
-  async getAllContacts(): Promise<Contact[]> {
-    return await prisma.contact.findMany({
+  async getAllContacts(): Promise<TAllContactsData[]> {
+    return (await prisma.contact.findMany({
       include: {
         phone: {
           select: {
@@ -23,10 +25,10 @@ class ContactRepository implements IContactRepository {
           },
         },
       },
-    });
+    })) as TAllContactsData[];
   }
 
-  async getContactById(contactId: string): Promise<Contact> {
+  async getContactById(contactId: string): Promise<TContactData> {
     return (await prisma.contact.findUnique({
       where: { id: contactId },
       include: {
@@ -46,7 +48,7 @@ class ContactRepository implements IContactRepository {
           },
         },
       },
-    })) as Contact;
+    })) as TContactData;
   }
 
   async addContact(contact: TAddContact): Promise<TAddContact> {

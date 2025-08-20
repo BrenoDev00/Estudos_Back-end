@@ -3,13 +3,15 @@ import { IContactService } from "../types/services/contact-service.type";
 import { contactRepository } from "../repositories/contact-repository";
 import { TAddContact } from "../types/add-contact.type";
 import { TUpdateContact } from "../types/update-contact.type";
+import { TAllContactsData } from "../types/all-contacts-data.type";
+import { TContactData } from "../types/contact-data.type";
 
 export class ContactService implements IContactService {
-  async getAllContacts(): Promise<Contact[]> {
+  async getAllContacts(): Promise<TAllContactsData[]> {
     return await contactRepository.getAllContacts();
   }
 
-  async getContactById(contactId: string): Promise<Contact> {
+  async getContactById(contactId: string): Promise<TContactData> {
     return await contactRepository.getContactById(contactId);
   }
 
