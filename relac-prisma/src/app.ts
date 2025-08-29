@@ -1,9 +1,10 @@
 import { prisma } from "./config/prisma";
+import { obterDados, obterComJoin, inserirDados } from "./queries-nativas";
 
 async function main() {
-  const result = await prisma.movie.create({
+  return await prisma.movie.create({
     data: {
-      title: "Coringa",
+      title: "New Film",
       detail: {
         create: {
           duration: 5060,
@@ -19,23 +20,21 @@ async function main() {
         create: {
           category: {
             create: {
-              name: "Drama",
+              name: "Comédia",
             },
           },
         },
       },
     },
   });
-
-  console.log("result", result);
 }
 
 async function listData() {
-  const result = await prisma.category.findMany();
-  console.log("items", result);
+  const result = await prisma.director.findMany();
+  // console.log("items", result);
 }
 
-listData()
+main()
   .then()
   .catch((error) => console.error(error))
   .finally(async () => {
