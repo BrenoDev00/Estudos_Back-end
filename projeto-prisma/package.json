@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "main": "dist/server.js",
   "scripts": {
+    "build": "tsc",
+    "start": "npx prisma migrate prod && npx prisma db seed && node dist/server.js",
     "dev": "tsc-watch --onSuccess \"node dist/server.js\""
   },
   "prisma": {
