@@ -1,5 +1,6 @@
 import { prisma } from "./config/prisma";
 import { obterDados, obterComJoin, inserirDados } from "./queries-nativas";
+import { inserirDadosTransaction } from "./transactions";
 
 async function main() {
   return await prisma.movie.create({
@@ -34,7 +35,7 @@ async function listData() {
   // console.log("items", result);
 }
 
-main()
+inserirDadosTransaction()
   .then()
   .catch((error) => console.error(error))
   .finally(async () => {
