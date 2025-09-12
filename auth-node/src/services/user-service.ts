@@ -4,14 +4,16 @@ import { IUserService } from "../types/services/index.js";
 import { emailAlreadyInUseMessage } from "../utils/constants.js";
 
 class UserService implements IUserService {
-  async addUser(userData: Omit<User, "id">): Promise<void> {
+  async addUser(userData: Omit<User, "id">): Promise<User> {
     const searchedUserEmail = await userRepository.getUserEmail(userData.email);
 
     if (searchedUserEmail) {
       throw new Error(emailAlreadyInUseMessage);
     }
 
-    await userRepository.addUser(userData);
+    const user = await userRepository.addUser(userData);
+
+    return user;
   }
 }
 

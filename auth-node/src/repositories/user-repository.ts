@@ -14,8 +14,10 @@ class UserRepository implements IUserRepository {
     return userEmail;
   }
 
-  async addUser(userData: Omit<User, "id">): Promise<void> {
-    await prisma.user.create({ data: userData });
+  async addUser(userData: Omit<User, "id">): Promise<User> {
+    const user = await prisma.user.create({ data: userData });
+
+    return user;
   }
 }
 
