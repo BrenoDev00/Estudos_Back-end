@@ -5,8 +5,8 @@ import { IUserController } from "../types/controllers/user-controller.type.js";
 import { userSchema } from "../schemas/user-schema.js";
 import { z } from "zod";
 import {
-  emailAlreadyInUseMessage,
-  internalServerErrorMessage,
+  EMAIL_ALREADY_IN_USE,
+  INTERNAL_SERVER_ERROR,
 } from "../utils/constants.js";
 import { StatusCode } from "../types/status-code.type.js";
 
@@ -27,12 +27,12 @@ class UserController implements IUserController {
 
       return res.status(StatusCode.CREATED).send(user);
     } catch (error: any) {
-      if (error.message === emailAlreadyInUseMessage)
-        res.status(StatusCode.CONFLICT).send({ message: error.message });
+      if (error.message === EMAIL_ALREADY_IN_USE)
+        return res.status(StatusCode.CONFLICT).send({ message: error.message });
 
       return res
         .status(StatusCode.INTERNAL_ERROR)
-        .send({ message: internalServerErrorMessage });
+        .send({ message: INTERNAL_SERVER_ERROR });
     }
   }
 }

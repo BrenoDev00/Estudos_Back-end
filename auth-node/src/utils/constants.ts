@@ -1,3 +1,5 @@
-export const emailAlreadyInUseMessage = "O E-mail já está em uso.";
+export const EMAIL_ALREADY_IN_USE = "O E-mail já está em uso.";
 
-export const internalServerErrorMessage = "Erro interno do servidor.";
+export const INTERNAL_SERVER_ERROR = "Erro interno do servidor.";
+
+export const ALLOWED_ORIGINS = ["http://localhost:3000"];
