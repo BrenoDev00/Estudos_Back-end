@@ -1,4 +1,4 @@
-import { ALLOWED_ORIGINS } from "./constants.js";
+import { ALLOWED_ORIGINS, NOT_ALLOWED_BY_CORS } from "./constants.js";
 
 export const corsOptions = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -6,7 +6,7 @@ export const corsOptions = {
     if (!origin || ALLOWED_ORIGINS.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
-      callback(new Error("Not allowed by CORS"));
+      callback(new Error(NOT_ALLOWED_BY_CORS));
     }
   },
 };

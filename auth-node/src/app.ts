@@ -6,9 +6,9 @@ import cors from "cors";
 
 const app: Express = express();
 
-app.use(cors(corsOptions));
-
 app.use(helmet());
+
+app.use(cors(corsOptions));
 
 app.use(express.json());
 
