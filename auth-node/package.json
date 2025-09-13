@@ -2,10 +2,10 @@
   "name": "auth-node",
   "version": "1.0.0",
   "description": "REST API com autenticação e autorização de usuários.",
-  "main": "dist/src/server.js",
+  "main": "dist/server.js",
   "type": "module",
   "scripts": {
-    "dev": "tsc-watch --onSuccess \"node dist/src/server.js\""
+    "dev": "tsc-watch --onSuccess \"node dist/server.js\""
   },
   "author": "Breno",
   "license": "MIT",

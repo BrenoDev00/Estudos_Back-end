@@ -1,12 +1,8 @@
-import { Router, Request, Response } from "express";
+import { Router } from "express";
 import userController from "../controllers/user-controller.js";
+import schemaValidation from "../middlewares/schema-validation.js";
+import { userSchema } from "../schemas/user-schema.js";
 
 export const userRouter: Router = Router();
 
-userRouter.post("/", async (req: Request, res: Response) => {
-  await userController.addUser(req, res);
-});
-
-userRouter.get("/", (_: Request, res: Response) => {
-  res.status(200).send("teste");
-});
+userRouter.post("/", schemaValidation(userSchema), userController.addUser);
