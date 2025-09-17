@@ -2,11 +2,9 @@
 import userService from "../services/user-service.js";
 import { Request, Response } from "express";
 import { IUserController } from "../types/controllers/user-controller.type.js";
-import {
-  EMAIL_ALREADY_IN_USE,
-  INTERNAL_SERVER_ERROR,
-} from "../utils/constants.js";
+import { EMAIL_ALREADY_IN_USE } from "../utils/constants.js";
 import { StatusCode } from "../types/status-code.type.js";
+import ConflictError from "../utils/errors/conflict-error.js";
 
 class UserController implements IUserController {
   async addUser(req: Request, res: Response): Promise<Response> {
@@ -18,11 +16,9 @@ class UserController implements IUserController {
       return res.status(StatusCode.CREATED).send(user);
     } catch (error: any) {
       if (error.message === EMAIL_ALREADY_IN_USE)
-        return res.status(StatusCode.CONFLICT).send({ message: error.message });
+        throw new ConflictError(EMAIL_ALREADY_IN_USE);
 
-      return res
-        .status(StatusCode.INTERNAL_ERROR)
-        .send({ message: INTERNAL_SERVER_ERROR });
+      throw Error;
     }
   }
 }
