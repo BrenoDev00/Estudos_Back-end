@@ -5,6 +5,7 @@ import { IUserController } from "../types/controllers/user-controller.type.js";
 import { EMAIL_ALREADY_IN_USE } from "../utils/constants.js";
 import { StatusCode } from "../types/status-code.type.js";
 import ConflictError from "../utils/errors/conflict-error.js";
+import InternalError from "../utils/errors/internal-error.js";
 
 class UserController implements IUserController {
   async addUser(req: Request, res: Response): Promise<Response> {
@@ -18,7 +19,7 @@ class UserController implements IUserController {
       if (error.message === EMAIL_ALREADY_IN_USE)
         throw new ConflictError(EMAIL_ALREADY_IN_USE);
 
-      throw Error;
+      throw new InternalError();
     }
   }
 }
