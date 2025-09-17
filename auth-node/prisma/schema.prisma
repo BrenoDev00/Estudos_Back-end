@@ -18,7 +18,7 @@ model User {
   id String @id @default(uuid())
   name String @db.VarChar(64)
   email String @unique 
-  password String @db.VarChar(12)
+  password String 
 
   @@map("user")
 }
