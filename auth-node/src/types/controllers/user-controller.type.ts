@@ -4,4 +4,6 @@ export interface IUserController {
   getUserById(req: Request, res: Response): Promise<Response>;
 
   addUser(req: Request, res: Response): Promise<Response>;
+
+  changeUserStatus(req: Request, res: Response): Promise<Response>;
 }

@@ -1,6 +1,6 @@
 import { User } from "@prisma/client";
 import userRepository from "../repositories/user-repository.js";
-import { IUserService } from "../types/services/index.js";
+import { IUserService } from "../types/services/user-service.type.js";
 import { EMAIL_ALREADY_IN_USE, USER_NOT_FOUND } from "../utils/constants.js";
 import { hash } from "bcrypt";
 
@@ -28,6 +28,14 @@ class UserService implements IUserService {
     });
 
     return user;
+  }
+
+  async changeUserStatus(id: string, status: boolean): Promise<void> {
+    const searchedUser = await userRepository.getUserById(id);
+
+    if (!searchedUser) throw new Error(USER_NOT_FOUND);
+
+    await userRepository.changeUserStatus(id, status);
   }
 }
 

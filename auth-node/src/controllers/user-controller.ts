@@ -38,6 +38,22 @@ class UserController implements IUserController {
       throw new InternalError();
     }
   }
+
+  async changeUserStatus(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params;
+    const { body } = req;
+
+    try {
+      await userService.changeUserStatus(id!, body.status);
+
+      return res.status(StatusCode.NO_CONTENT).send();
+    } catch (error: any) {
+      if (error.message === USER_NOT_FOUND)
+        throw new NotFoundError(USER_NOT_FOUND);
+
+      throw new InternalError();
+    }
+  }
 }
 
 const userController = new UserController();
