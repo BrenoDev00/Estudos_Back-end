@@ -4,7 +4,7 @@ import schemaValidation from "../middlewares/schema-validation.js";
 import userSchema from "../schemas/user-schema.js";
 import statusSchema from "../schemas/status-schema.js";
 
-export const userRouter: Router = Router();
+const userRouter: Router = Router();
 
 userRouter.get("/:id", userController.getUserById);
 
@@ -19,3 +19,5 @@ userRouter.patch(
   schemaValidation(statusSchema),
   userController.changeUserStatus
 );
+
+export default userRouter;
