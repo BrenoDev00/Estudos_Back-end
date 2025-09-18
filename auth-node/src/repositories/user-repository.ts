@@ -31,22 +31,22 @@ class UserRepository implements IUserRepository {
     return userEmail;
   }
 
-  async getUserPassword(
+  async getUserIdByCredentials(
     userCredentials: Login
-  ): Promise<{ password: string } | null> {
+  ): Promise<string | undefined> {
     const { email, password } = userCredentials;
 
-    const userPassword = await prisma.user.findUnique({
+    const user = await prisma.user.findUnique({
       where: {
         email: email,
         password: password,
       },
       select: {
-        password: true,
+        id: true,
       },
     });
 
-    return userPassword;
+    return user?.id;
   }
 
   async addUser(userData: Omit<User, "id">): Promise<User> {

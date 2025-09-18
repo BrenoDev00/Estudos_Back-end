@@ -6,9 +6,7 @@ export interface IUserRepository {
 
   getUserEmail(email: string): Promise<{ email: string } | null>;
 
-  getUserPassword(
-    userCredentials: Login
-  ): Promise<{ password: string } | null>;
+  getUserIdByCredentials(userCredentials: Login): Promise<string | undefined>;
 
   addUser(userData: Omit<User, "id">): Promise<User>;
 
