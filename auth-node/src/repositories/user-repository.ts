@@ -3,6 +3,22 @@ import { prisma } from "../config/prisma-client.js";
 import { IUserRepository } from "../types/repositories/user-repository.type.js";
 
 class UserRepository implements IUserRepository {
+  async getUserById(id: string): Promise<Omit<User, "password"> | null> {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: id,
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        status: true,
+      },
+    });
+
+    return user;
+  }
+
   async getUserEmail(email: string): Promise<{ email: string } | null> {
     const userEmail = await prisma.user.findUnique({
       where: {

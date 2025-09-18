@@ -5,4 +5,10 @@ import { userSchema } from "../schemas/user-schema.js";
 
 export const userRouter: Router = Router();
 
-userRouter.post("/", schemaValidation(userSchema), userController.addUser);
+userRouter.get("/:id", userController.getUserById);
+
+userRouter.post(
+  "/registration",
+  schemaValidation(userSchema),
+  userController.addUser
+);
