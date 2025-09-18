@@ -1,6 +1,7 @@
 import { User } from "@prisma/client";
 import { prisma } from "../config/prisma-client.js";
 import { IUserRepository } from "../types/repositories/user-repository.type.js";
+import { Login } from "../types/login.type.js";
 
 class UserRepository implements IUserRepository {
   async getUserById(id: string): Promise<Omit<User, "password"> | null> {
@@ -28,6 +29,24 @@ class UserRepository implements IUserRepository {
     });
 
     return userEmail;
+  }
+
+  async getUserPassword(
+    userCredentials: Login
+  ): Promise<{ password: string } | null> {
+    const { email, password } = userCredentials;
+
+    const userPassword = await prisma.user.findUnique({
+      where: {
+        email: email,
+        password: password,
+      },
+      select: {
+        password: true,
+      },
+    });
+
+    return userPassword;
   }
 
   async addUser(userData: Omit<User, "id">): Promise<User> {
