@@ -14,9 +14,11 @@ class UserService implements IUserService {
   }
 
   async addUser(userData: Omit<User, "id">): Promise<User> {
-    const searchedUserEmail = await userRepository.getUserEmail(userData.email);
+    const userCredentials = await userRepository.getUserCredentialsByEmail(
+      userData.email
+    );
 
-    if (searchedUserEmail) {
+    if (userCredentials?.email) {
       throw new Error(EMAIL_ALREADY_IN_USE);
     }
 

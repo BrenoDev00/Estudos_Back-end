@@ -20,33 +20,15 @@ class UserRepository implements IUserRepository {
     return user;
   }
 
-  async getUserEmail(email: string): Promise<{ email: string } | null> {
-    const userEmail = await prisma.user.findUnique({
+  async getUserCredentialsByEmail(email: string): Promise<Login | null> {
+    const userCredentials = await prisma.user.findUnique({
       where: {
         email: email,
       },
-      select: { email: true },
+      select: { email: true, password: true },
     });
 
-    return userEmail;
-  }
-
-  async getUserPassword(
-    userCredentials: Login
-  ): Promise<{ password: string } | null> {
-    const { email, password } = userCredentials;
-
-    const userPassword = await prisma.user.findUnique({
-      where: {
-        email: email,
-        password: password,
-      },
-      select: {
-        password: true,
-      },
-    });
-
-    return userPassword;
+    return userCredentials;
   }
 
   async addUser(userData: Omit<User, "id">): Promise<User> {
