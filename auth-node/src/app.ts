@@ -14,7 +14,7 @@ app.use(cors(corsOptions));
 
 app.use(express.json());
 
-app.use("/login", authRouter);
+app.use("/auth", authRouter);
 
 app.use("/user", userRouter);
 

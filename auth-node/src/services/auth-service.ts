@@ -10,15 +10,15 @@ import { sign } from "jsonwebtoken";
 import jwtSecret from "../config/jwt-secret.js";
 
 class AuthService implements IAuthService {
-  async login(userCredentials: Login): Promise<{ accessToken: string }> {
+  async login(loginData: Login): Promise<{ accessToken: string }> {
     const userCredentialsData = await userRepository.getUserCredentialsByEmail(
-      userCredentials.email
+      loginData.email
     );
 
     if (!userCredentialsData) throw new Error(USER_NOT_FOUND);
 
     const samePasswords = await bcrypt.compare(
-      userCredentials.password,
+      loginData.password,
       userCredentialsData.password
     );
 

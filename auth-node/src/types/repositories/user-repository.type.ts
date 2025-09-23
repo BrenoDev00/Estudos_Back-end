@@ -1,10 +1,10 @@
 import { User } from "@prisma/client";
-import { Login } from "../login.type.js";
+import { UserCredentials } from "../user-credentials.js";
 
 export interface IUserRepository {
   getUserById(id: string): Promise<Omit<User, "password"> | null>;
 
-  getUserCredentialsByEmail(email: string): Promise<Login | null>;
+  getUserCredentialsByEmail(email: string): Promise<UserCredentials | null>;
 
   addUser(userData: Omit<User, "id">): Promise<User>;
 
