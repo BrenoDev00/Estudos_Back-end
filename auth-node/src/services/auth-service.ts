@@ -6,8 +6,7 @@ import {
   INVALID_USER_CREDENTIALS,
   USER_NOT_FOUND,
 } from "../utils/constants.js";
-import { sign } from "jsonwebtoken";
-import jwtSecret from "../config/jwt-secret.js";
+import pkg from "jsonwebtoken";
 
 class AuthService implements IAuthService {
   async login(loginData: Login): Promise<{ accessToken: string }> {
@@ -24,11 +23,14 @@ class AuthService implements IAuthService {
 
     if (!samePasswords) throw new Error(INVALID_USER_CREDENTIALS);
 
+    const { sign } = pkg;
+
     const accessToken = sign(
       {
+        id: userCredentialsData.id,
         email: userCredentialsData.email,
       },
-      jwtSecret,
+      process.env.JWT_SECRET as string,
       {
         expiresIn: 86400, // 1 dia
       }
