@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from "express";
 import UnauthorizedError from "../utils/errors/unauthorized-error.js";
 import { INVALID_TOKEN, TOKEN_NOT_SPECIFIED } from "../utils/constants.js";
-import { verify } from "jsonwebtoken";
+import pkg from "jsonwebtoken";
 
-const authVerify = async (
+const authValidator = async (
   req: Request,
   _res: Response,
   next: NextFunction
@@ -14,6 +14,8 @@ const authVerify = async (
 
   const formattedAccessToken = accessToken.split(" ")[1] as string;
 
+  const { verify } = pkg;
+
   try {
     verify(formattedAccessToken, process.env.HASH_SECRET as string);
 
@@ -23,4 +25,4 @@ const authVerify = async (
   }
 };
 
-export default authVerify;
+export default authValidator;

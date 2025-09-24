@@ -2,7 +2,7 @@ import z, { ZodObject } from "zod";
 import { Response, Request, NextFunction } from "express";
 import { StatusCode } from "../types/status-code.type.js";
 
-const schemaValidation = (schema: ZodObject) => {
+const schemaValidator = (schema: ZodObject) => {
   return (req: Request, res: Response, next: NextFunction) => {
     const validation = schema.safeParse(req.body);
 
@@ -16,4 +16,4 @@ const schemaValidation = (schema: ZodObject) => {
   };
 };
 
-export default schemaValidation;
+export default schemaValidator;
