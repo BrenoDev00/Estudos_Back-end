@@ -9,3 +9,9 @@ export const NOT_ALLOWED_BY_CORS = "Não permitido pelo CORS.";
 export const USER_NOT_FOUND = "Usuário não encontrado.";
 
 export const INVALID_USER_CREDENTIALS = "Credenciais de usuário inválidas.";
+
+export const UNAUTHORIZED_USER = "Usuário não autorizado.";
+
+export const TOKEN_NOT_SPECIFIED = "Token não informado.";
+
+export const INVALID_TOKEN = "Token de acesso inválido.";

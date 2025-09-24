@@ -1,14 +1,35 @@
 import { Login } from "../types/login.type.js";
 import { IAuthService } from "../types/services/auth-service.type.js";
 import userRepository from "../repositories/user-repository.js";
-import bcrypt from "bcrypt";
+import bcrypt, { hash } from "bcrypt";
 import {
+  EMAIL_ALREADY_IN_USE,
   INVALID_USER_CREDENTIALS,
   USER_NOT_FOUND,
 } from "../utils/constants.js";
 import pkg from "jsonwebtoken";
+import { User } from "@prisma/client";
 
 class AuthService implements IAuthService {
+  async register(userData: Omit<User, "id">): Promise<User> {
+    const userCredentials = await userRepository.getUserCredentialsByEmail(
+      userData.email
+    );
+
+    if (userCredentials?.email) {
+      throw new Error(EMAIL_ALREADY_IN_USE);
+    }
+
+    const encryptedPassword = await hash(userData.password, 12);
+
+    const user = await userRepository.addUser({
+      ...userData,
+      password: encryptedPassword,
+    });
+
+    return user;
+  }
+
   async login(loginData: Login): Promise<{ accessToken: string }> {
     const userCredentialsData = await userRepository.getUserCredentialsByEmail(
       loginData.email
@@ -30,7 +51,7 @@ class AuthService implements IAuthService {
         id: userCredentialsData.id,
         email: userCredentialsData.email,
       },
-      process.env.JWT_SECRET as string,
+      process.env.HASH_SECRET as string,
       {
         expiresIn: 86400, // 1 dia
       }

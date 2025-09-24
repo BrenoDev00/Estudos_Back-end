@@ -4,12 +4,12 @@ import { StatusCode } from "../types/status-code.type.js";
 import { INTERNAL_SERVER_ERROR } from "../utils/constants.js";
 import AppError from "../utils/errors/app-error.js";
 
-function errorHandler(
+const errorHandler = (
   error: Error,
   _req: Request,
   res: Response,
   _next: NextFunction
-) {
+) => {
   if (error instanceof AppError) {
     res.status(error.statusCode).send({ message: error.message });
   } else {
@@ -17,6 +17,6 @@ function errorHandler(
       .status(StatusCode.INTERNAL_ERROR)
       .send({ message: INTERNAL_SERVER_ERROR });
   }
-}
+};
 
 export default errorHandler;
