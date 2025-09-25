@@ -1,10 +1,10 @@
-import { User } from "@prisma/client";
 import userRepository from "../repositories/user-repository.js";
 import { IUserService } from "../types/services/user-service.type.js";
 import { USER_NOT_FOUND } from "../utils/constants.js";
+import { UserById } from "../types/user-by-id.type.js";
 
 class UserService implements IUserService {
-  async getUserById(id: string): Promise<Omit<User, "password">> {
+  async getUserById(id: string): Promise<UserById> {
     const user = await userRepository.getUserById(id);
 
     if (user) return user;

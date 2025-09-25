@@ -2,9 +2,11 @@ import { Login } from "../types/login.type.js";
 import { IAuthService } from "../types/services/auth-service.type.js";
 import userRepository from "../repositories/user-repository.js";
 import bcrypt, { hash } from "bcrypt";
+import roleService from "./role-service.js";
 import {
   EMAIL_ALREADY_IN_USE,
   INVALID_USER_CREDENTIALS,
+  ROLE_NOT_FOUND,
   USER_NOT_FOUND,
 } from "../utils/constants.js";
 import pkg from "jsonwebtoken";
@@ -19,6 +21,10 @@ class AuthService implements IAuthService {
     if (userCredentials?.email) {
       throw new Error(EMAIL_ALREADY_IN_USE);
     }
+
+    const roleId = await roleService.getRoleId(userData.roleId);
+
+    if (!roleId) throw new Error(ROLE_NOT_FOUND);
 
     const encryptedPassword = await hash(userData.password, 12);
 

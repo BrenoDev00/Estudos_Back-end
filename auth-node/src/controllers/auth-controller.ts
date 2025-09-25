@@ -7,6 +7,7 @@ import InternalError from "../utils/errors/internal-error.js";
 import {
   EMAIL_ALREADY_IN_USE,
   INVALID_USER_CREDENTIALS,
+  ROLE_NOT_FOUND,
   USER_NOT_FOUND,
 } from "../utils/constants.js";
 import UnauthorizedError from "../utils/errors/unauthorized-error.js";
@@ -24,6 +25,9 @@ class AuthController implements IAuthController {
     } catch (error: any) {
       if (error.message === EMAIL_ALREADY_IN_USE)
         throw new ConflictError(EMAIL_ALREADY_IN_USE);
+
+      if (error.message === ROLE_NOT_FOUND)
+        throw new NotFoundError(ROLE_NOT_FOUND);
 
       throw new InternalError();
     }

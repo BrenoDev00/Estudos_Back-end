@@ -15,3 +15,5 @@ export const UNAUTHORIZED_USER = "Usuário não autorizado.";
 export const TOKEN_NOT_SPECIFIED = "Token não informado.";
 
 export const INVALID_TOKEN = "Token de acesso inválido.";
+
+export const ROLE_NOT_FOUND = "Permissão não encontrada.";

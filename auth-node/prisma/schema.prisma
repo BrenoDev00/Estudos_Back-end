@@ -20,6 +20,20 @@ model User {
   email String @unique 
   status Boolean @default(true)
   password String 
+  
+  roleId String @map("role_id") @default("temporary value")
+  role Role @relation(fields: [roleId], references: [id])
 
   @@map("user")
+}
+
+model Role {
+  id String @id @default(uuid())
+  name String 
+  description String 
+  status Boolean @default(true)
+
+  users User[]
+
+  @@map("role")
 }
