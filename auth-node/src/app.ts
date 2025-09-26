@@ -5,6 +5,7 @@ import helmet from "helmet";
 import cors from "cors";
 import userRouter from "./routers/user-router.js";
 import authRouter from "./routers/auth-router.js";
+import roleRouter from "./routers/role-router.js";
 
 const app: Express = express();
 
@@ -17,6 +18,8 @@ app.use(express.json());
 app.use("/auth", authRouter);
 
 app.use("/user", userRouter);
+
+app.use("/role", roleRouter);
 
 app.use(errorHandler);
 

@@ -1,3 +1,4 @@
+import { Role } from "@prisma/client";
 import { prisma } from "../config/prisma-client.js";
 import { IRoleRepository } from "../types/repositories/role-repository.type.js";
 
@@ -13,6 +14,17 @@ class RoleRepository implements IRoleRepository {
     });
 
     return roleId;
+  }
+
+  async updateRoleById(roleData: Role): Promise<Role | null> {
+    const role = await prisma.role.update({
+      where: {
+        id: roleData.id,
+      },
+      data: roleData,
+    });
+
+    return role;
   }
 }
 
