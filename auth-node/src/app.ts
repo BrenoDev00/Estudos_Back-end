@@ -6,6 +6,7 @@ import cors from "cors";
 import userRouter from "./routers/user-router.js";
 import authRouter from "./routers/auth-router.js";
 import roleRouter from "./routers/role-router.js";
+import productRouter from "./routers/product-router.js";
 
 const app: Express = express();
 
@@ -20,6 +21,8 @@ app.use("/auth", authRouter);
 app.use("/user", userRouter);
 
 app.use("/role", roleRouter);
+
+app.use("/products", productRouter);
 
 app.use(errorHandler);
 
