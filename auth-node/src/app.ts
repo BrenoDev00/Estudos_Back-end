@@ -22,7 +22,7 @@ app.use("/user", userRouter);
 
 app.use("/role", roleRouter);
 
-app.use("/products", productRouter);
+app.use("/product", productRouter);
 
 app.use(errorHandler);
 

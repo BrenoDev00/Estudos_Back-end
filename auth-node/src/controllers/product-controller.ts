@@ -1,8 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Response, Request } from "express";
 import productService from "../services/product-service.js";
 import { IProductController } from "../types/controllers/product-controller.type.js";
 import { StatusCode } from "../types/status-code.type.js";
 import InternalError from "../utils/errors/internal-error.js";
+import { PRODUCT_CATEGORY_NOT_FOUND } from "../utils/constants.js";
+import NotFoundError from "../utils/errors/not-found-error.js";
 
 class ProductController implements IProductController {
   async getProducts(_: Request, res: Response): Promise<Response> {
@@ -11,6 +14,25 @@ class ProductController implements IProductController {
 
       return res.status(StatusCode.OK).send(products);
     } catch {
+      throw new InternalError();
+    }
+  }
+
+  async addProduct(req: Request, res: Response): Promise<Response> {
+    const { categoryId } = req.params;
+    const { body } = req;
+
+    try {
+      const addedProduct = await productService.addProduct({
+        ...body,
+        categoryId,
+      });
+
+      return res.status(StatusCode.CREATED).send(addedProduct);
+    } catch (error: any) {
+      if (error.message === PRODUCT_CATEGORY_NOT_FOUND)
+        throw new NotFoundError(PRODUCT_CATEGORY_NOT_FOUND);
+
       throw new InternalError();
     }
   }

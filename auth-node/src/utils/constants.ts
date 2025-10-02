@@ -17,3 +17,6 @@ export const TOKEN_NOT_SPECIFIED = "Token não informado.";
 export const INVALID_TOKEN = "Token de acesso inválido.";
 
 export const ROLE_NOT_FOUND = "Permissão não encontrada.";
+
+export const PRODUCT_CATEGORY_NOT_FOUND =
+  "Categoria do produto não encontrada.";

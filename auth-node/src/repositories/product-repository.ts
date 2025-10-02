@@ -1,3 +1,4 @@
+import { Product } from "@prisma/client";
 import { prisma } from "../config/prisma-client.js";
 import { AllProducts } from "../types/all-products.type.js";
 import { IProductRepository } from "../types/repositories/product-repository.type.js";
@@ -15,6 +16,16 @@ class ProductRepository implements IProductRepository {
     });
 
     return products;
+  }
+
+  async addProduct(
+    productData: Omit<Product, "id" | "createdAt">
+  ): Promise<Product> {
+    const product = await prisma.product.create({
+      data: productData,
+    });
+
+    return product;
   }
 }
 
