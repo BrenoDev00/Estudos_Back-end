@@ -21,7 +21,7 @@ model User {
   status Boolean @default(true)
   password String 
   
-  roleId String @map("role_id") @default("temporary value")
+  roleId String @map("role_id")
   role Role @relation(fields: [roleId], references: [id])
 
   @@map("user")
@@ -36,4 +36,26 @@ model Role {
   users User[]
 
   @@map("role")
+}
+
+model Product {
+  id String @id @default(uuid())
+  name String 
+  description String
+  priceInCents Int @map("price_in_cents")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  categoryId String @map("category_id")
+  category ProductCategory @relation(fields: [categoryId], references: [id])
+
+  @@map("product")
+}
+
+model ProductCategory{
+  id String @id @default(uuid())
+  name String 
+
+  products Product[]
+
+  @@map("product_category")
 }
