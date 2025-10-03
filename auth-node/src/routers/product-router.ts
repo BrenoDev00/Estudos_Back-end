@@ -16,4 +16,10 @@ productRouter.post(
   productController.addProduct
 );
 
+productRouter.put(
+  "/:id/:categoryId",
+  schemaValidator(productSchema),
+  productController.editProduct
+);
+
 export default productRouter;

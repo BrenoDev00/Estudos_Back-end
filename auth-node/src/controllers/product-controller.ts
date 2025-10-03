@@ -4,7 +4,10 @@ import productService from "../services/product-service.js";
 import { IProductController } from "../types/controllers/product-controller.type.js";
 import { StatusCode } from "../types/status-code.type.js";
 import InternalError from "../utils/errors/internal-error.js";
-import { PRODUCT_CATEGORY_NOT_FOUND } from "../utils/constants.js";
+import {
+  PRODUCT_CATEGORY_NOT_FOUND,
+  PRODUCT_NOT_FOUND,
+} from "../utils/constants.js";
 import NotFoundError from "../utils/errors/not-found-error.js";
 
 class ProductController implements IProductController {
@@ -32,6 +35,29 @@ class ProductController implements IProductController {
     } catch (error: any) {
       if (error.message === PRODUCT_CATEGORY_NOT_FOUND)
         throw new NotFoundError(PRODUCT_CATEGORY_NOT_FOUND);
+
+      throw new InternalError();
+    }
+  }
+
+  async editProduct(req: Request, res: Response): Promise<Response> {
+    const { id, categoryId } = req.params;
+    const { body } = req;
+
+    try {
+      const editedProduct = await productService.editProduct({
+        ...body,
+        id,
+        categoryId,
+      });
+
+      return res.status(StatusCode.OK).send(editedProduct);
+    } catch (error: any) {
+      if (error.message === PRODUCT_CATEGORY_NOT_FOUND)
+        throw new NotFoundError(PRODUCT_CATEGORY_NOT_FOUND);
+
+      if (error.message === PRODUCT_NOT_FOUND)
+        throw new NotFoundError(PRODUCT_NOT_FOUND);
 
       throw new InternalError();
     }

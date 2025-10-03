@@ -5,4 +5,6 @@ export interface IProductService {
   getProducts(): Promise<AllProducts[]>;
 
   addProduct(productData: Omit<Product, "id" | "createdAt">): Promise<Product>;
+
+  editProduct(productData: Omit<Product, "createdAt">): Promise<Product>;
 }
