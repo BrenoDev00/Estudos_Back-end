@@ -46,6 +46,14 @@ class ProductService implements IProductService {
 
     return editedProduct;
   }
+
+  async deleteProduct(productId: string): Promise<void> {
+    const searchedProductId = await productRepository.getProductId(productId);
+
+    if (!searchedProductId) throw new Error(PRODUCT_NOT_FOUND);
+
+    await productRepository.deleteProduct(productId);
+  }
 }
 
 const productService = new ProductService();

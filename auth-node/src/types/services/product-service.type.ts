@@ -7,4 +7,6 @@ export interface IProductService {
   addProduct(productData: Omit<Product, "id" | "createdAt">): Promise<Product>;
 
   editProduct(productData: Omit<Product, "createdAt">): Promise<Product>;
+  
+  deleteProduct(productId: string): Promise<void>;
 }

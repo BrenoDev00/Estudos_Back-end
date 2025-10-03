@@ -62,6 +62,21 @@ class ProductController implements IProductController {
       throw new InternalError();
     }
   }
+
+  async deleteProduct(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params;
+
+    try {
+      await productService.deleteProduct(id!);
+
+      return res.status(StatusCode.NO_CONTENT).send();
+    } catch (error: any) {
+      if (error.message === PRODUCT_NOT_FOUND)
+        throw new NotFoundError(PRODUCT_NOT_FOUND);
+
+      throw new InternalError();
+    }
+  }
 }
 
 const productController = new ProductController();
