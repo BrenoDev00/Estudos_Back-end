@@ -12,6 +12,9 @@ export const INVALID_USER_CREDENTIALS = "Credenciais de usuário inválidas.";
 
 export const UNAUTHORIZED_USER = "Usuário não autorizado.";
 
+export const USER_WITHOUT_PERMISSION =
+  "Usuário não tem permissão para realizar a ação.";
+
 export const TOKEN_NOT_SPECIFIED = "Token não informado.";
 
 export const INVALID_TOKEN = "Token de acesso inválido.";
