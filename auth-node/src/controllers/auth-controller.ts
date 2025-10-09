@@ -10,9 +10,9 @@ import {
   ROLE_NOT_FOUND,
   USER_NOT_FOUND,
 } from "../utils/constants.js";
-import UnauthorizedError from "../utils/errors/unauthorized-error.js";
 import NotFoundError from "../utils/errors/not-found-error.js";
 import ConflictError from "../utils/errors/conflict-error.js";
+import UnauthenticatedError from "../utils/errors/unauthenticated-error.js";
 
 class AuthController implements IAuthController {
   async register(req: Request, res: Response): Promise<Response> {
@@ -42,7 +42,7 @@ class AuthController implements IAuthController {
       return res.status(StatusCode.OK).send(accessToken);
     } catch (error: any) {
       if (error.message === INVALID_USER_CREDENTIALS)
-        throw new UnauthorizedError(INVALID_USER_CREDENTIALS);
+        throw new UnauthenticatedError(INVALID_USER_CREDENTIALS);
 
       if (error.message === USER_NOT_FOUND)
         throw new NotFoundError(USER_NOT_FOUND);
