@@ -22,14 +22,10 @@ class ProductController implements IProductController {
   }
 
   async addProduct(req: Request, res: Response): Promise<Response> {
-    const { categoryId } = req.params;
     const { body } = req;
 
     try {
-      const addedProduct = await productService.addProduct({
-        ...body,
-        categoryId,
-      });
+      const addedProduct = await productService.addProduct(body);
 
       return res.status(StatusCode.CREATED).send(addedProduct);
     } catch (error: any) {
@@ -40,28 +36,28 @@ class ProductController implements IProductController {
     }
   }
 
-  async editProduct(req: Request, res: Response): Promise<Response> {
-    const { id, categoryId } = req.params;
-    const { body } = req;
+  // async editProduct(req: Request, res: Response): Promise<Response> {
+  //   const { id, categoryId } = req.params;
+  //   const { body } = req;
 
-    try {
-      const editedProduct = await productService.editProduct({
-        ...body,
-        id,
-        categoryId,
-      });
+  //   try {
+  //     const editedProduct = await productService.editProduct({
+  //       ...body,
+  //       id,
+  //       categoryId,
+  //     });
 
-      return res.status(StatusCode.OK).send(editedProduct);
-    } catch (error: any) {
-      if (error.message === PRODUCT_CATEGORY_NOT_FOUND)
-        throw new NotFoundError(PRODUCT_CATEGORY_NOT_FOUND);
+  //     return res.status(StatusCode.OK).send(editedProduct);
+  //   } catch (error: any) {
+  //     if (error.message === PRODUCT_CATEGORY_NOT_FOUND)
+  //       throw new NotFoundError(PRODUCT_CATEGORY_NOT_FOUND);
 
-      if (error.message === PRODUCT_NOT_FOUND)
-        throw new NotFoundError(PRODUCT_NOT_FOUND);
+  //     if (error.message === PRODUCT_NOT_FOUND)
+  //       throw new NotFoundError(PRODUCT_NOT_FOUND);
 
-      throw new InternalError();
-    }
-  }
+  //     throw new InternalError();
+  //   }
+  // }
 
   async deleteProduct(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;

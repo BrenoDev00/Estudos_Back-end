@@ -13,18 +13,18 @@ productRouter.use(authValidator);
 productRouter.get("", productController.getProducts);
 
 productRouter.post(
-  "/:categoryId",
+  "/",
   roleValidator([Role.ADMIN, Role.EDITOR]),
   schemaValidator(productSchema),
   productController.addProduct
 );
 
-productRouter.put(
-  "/:id/:categoryId",
-  roleValidator([Role.ADMIN]),
-  schemaValidator(productSchema),
-  productController.editProduct
-);
+// productRouter.put(
+//   "/:id/:categoryId",
+//   roleValidator([Role.ADMIN]),
+//   schemaValidator(productSchema),
+//   productController.editProduct
+// );
 
 productRouter.delete(
   "/:id",

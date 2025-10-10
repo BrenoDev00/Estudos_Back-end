@@ -1,4 +1,3 @@
-import { Product } from "@prisma/client";
 import productRepository from "../repositories/product-repository.js";
 import { AllProducts } from "../types/all-products.type.js";
 import { IProductService } from "../types/services/product-service.type.js";
@@ -7,6 +6,9 @@ import {
   PRODUCT_CATEGORY_NOT_FOUND,
   PRODUCT_NOT_FOUND,
 } from "../utils/constants.js";
+import { NewProduct } from "../types/new-product.type.js";
+import categoriesOnProducts from "../repositories/categories-on-products-repository.js";
+import { Product } from "@prisma/client";
 
 class ProductService implements IProductService {
   async getProducts(): Promise<AllProducts[]> {
@@ -16,36 +18,48 @@ class ProductService implements IProductService {
   }
 
   async addProduct(
-    productData: Omit<Product, "id" | "createdAt">
+    productData: Omit<NewProduct, "id" | "createdAt">
   ): Promise<Product> {
-    const { categoryId } = productData;
+    const { productCategoriesId, name, description, priceInCents } =
+      productData;
 
-    const searchedCategoryId =
-      await productCategoryRepository.getProductCategoryId(categoryId);
+    for (const categoryId of productCategoriesId) {
+      const searchedProductCategoryId =
+        await productCategoryRepository.getProductCategoryId(categoryId);
 
-    if (!searchedCategoryId) throw new Error(PRODUCT_CATEGORY_NOT_FOUND);
+      if (!searchedProductCategoryId)
+        throw new Error(PRODUCT_CATEGORY_NOT_FOUND);
+    }
 
-    const addedProduct = await productRepository.addProduct(productData);
+    const addedProduct = await productRepository.addProduct({
+      name,
+      description,
+      priceInCents,
+    });
+
+    for (const categoryId of productCategoriesId) {
+      categoriesOnProducts.addCategoryOnProduct(categoryId, addedProduct.id);
+    }
 
     return addedProduct;
   }
 
-  async editProduct(productData: Omit<Product, "createdAt">): Promise<Product> {
-    const { categoryId, id } = productData;
+  // async editProduct(productData: Omit<Product, "createdAt">): Promise<Product> {
+  //   const { categoryId, id } = productData;
 
-    const searchedProductId = await productRepository.getProductId(id);
+  //   const searchedProductId = await productRepository.getProductId(id);
 
-    if (!searchedProductId) throw new Error(PRODUCT_NOT_FOUND);
+  //   if (!searchedProductId) throw new Error(PRODUCT_NOT_FOUND);
 
-    const searchedCategoryId =
-      await productCategoryRepository.getProductCategoryId(categoryId);
+  //   const searchedCategoryId =
+  //     await productCategoryRepository.getProductCategoryId(categoryId);
 
-    if (!searchedCategoryId) throw new Error(PRODUCT_CATEGORY_NOT_FOUND);
+  //   if (!searchedCategoryId) throw new Error(PRODUCT_CATEGORY_NOT_FOUND);
 
-    const editedProduct = await productRepository.editProduct(productData);
+  //   const editedProduct = await productRepository.editProduct(productData);
 
-    return editedProduct;
-  }
+  //   return editedProduct;
+  // }
 
   async deleteProduct(productId: string): Promise<void> {
     const searchedProductId = await productRepository.getProductId(productId);

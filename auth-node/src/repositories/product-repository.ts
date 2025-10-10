@@ -20,11 +20,7 @@ class ProductRepository implements IProductRepository {
   async getProducts(): Promise<AllProducts[]> {
     const products = await prisma.product.findMany({
       omit: {
-        categoryId: true,
         createdAt: true,
-      },
-      include: {
-        category: true,
       },
     });
 

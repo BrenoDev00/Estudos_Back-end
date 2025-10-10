@@ -45,8 +45,7 @@ model Product {
   priceInCents Int @map("price_in_cents")
   createdAt DateTime @default(now()) @map("created_at")
 
-  categoryId String @map("category_id")
-  category ProductCategory @relation(fields: [categoryId], references: [id])
+  categoriesOnProducts CategoriesOnProducts[]
 
   @@map("product")
 }
@@ -55,7 +54,19 @@ model ProductCategory{
   id String @id @default(uuid())
   name String 
 
-  products Product[]
+  categoriesOnProducts CategoriesOnProducts[]
 
   @@map("product_category")
+}
+
+model CategoriesOnProducts{
+  id String @id @default(uuid())
+
+  categoryId String @map("category_id")
+  category ProductCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  productId String @map("product_id")
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("categories_on_products")
 }
