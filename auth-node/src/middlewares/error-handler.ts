@@ -2,7 +2,7 @@
 import { Request, Response, NextFunction } from "express";
 import { StatusCode } from "../types/status-code.type.js";
 import { INTERNAL_SERVER_ERROR } from "../utils/constants.js";
-import AppError from "../utils/errors/app-error.js";
+import BaseError from "../utils/errors/base-error.js";
 
 const errorHandler = (
   error: Error,
@@ -10,7 +10,7 @@ const errorHandler = (
   res: Response,
   _next: NextFunction
 ) => {
-  if (error instanceof AppError) {
+  if (error instanceof BaseError) {
     res.status(error.statusCode).send({ message: error.message });
   } else {
     res

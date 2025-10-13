@@ -1,7 +1,7 @@
-import AppError from "./app-error.js";
+import BaseError from "./base-error.js";
 import { StatusCode } from "../../types/status-code.type.js";
 
-class ConflictError extends AppError {
+class ConflictError extends BaseError {
   constructor(message: string) {
     super(message, StatusCode.CONFLICT);
   }

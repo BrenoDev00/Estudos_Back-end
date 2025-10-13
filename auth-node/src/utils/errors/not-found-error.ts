@@ -1,7 +1,7 @@
 import { StatusCode } from "../../types/status-code.type.js";
-import AppError from "./app-error.js";
+import BaseError from "./base-error.js";
 
-class NotFoundError extends AppError {
+class NotFoundError extends BaseError {
   constructor(message: string) {
     super(message, StatusCode.NOT_FOUND);
   }

@@ -1,6 +1,6 @@
 import { StatusCode } from "../../types/status-code.type.js";
 
-abstract class AppError extends Error {
+abstract class BaseError extends Error {
   readonly statusCode: StatusCode;
 
   constructor(message: string, statusCode: StatusCode) {
@@ -10,4 +10,4 @@ abstract class AppError extends Error {
   }
 }
 
-export default AppError;
+export default BaseError;
