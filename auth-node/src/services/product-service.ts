@@ -8,7 +8,6 @@ import {
 } from "../utils/constants.js";
 import { NewProduct } from "../types/new-product.type.js";
 import categoriesOnProducts from "../repositories/categories-on-products-repository.js";
-import { Product } from "@prisma/client";
 
 class ProductService implements IProductService {
   async getProducts(): Promise<AllProducts[]> {
@@ -19,7 +18,7 @@ class ProductService implements IProductService {
 
   async addProduct(
     productData: Omit<NewProduct, "id" | "createdAt">
-  ): Promise<Product> {
+  ): Promise<NewProduct> {
     const { productCategoriesId, name, description, priceInCents } =
       productData;
 
@@ -41,7 +40,10 @@ class ProductService implements IProductService {
       categoriesOnProducts.addCategoryOnProduct(categoryId, addedProduct.id);
     }
 
-    return addedProduct;
+    return {
+      ...addedProduct,
+      productCategoriesId,
+    };
   }
 
   // async editProduct(productData: Omit<Product, "createdAt">): Promise<Product> {

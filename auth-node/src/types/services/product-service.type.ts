@@ -1,4 +1,3 @@
-import { Product } from "@prisma/client";
 import { AllProducts } from "../all-products.type.js";
 import { NewProduct } from "../new-product.type.js";
 
@@ -7,7 +6,7 @@ export interface IProductService {
 
   addProduct(
     productData: Omit<NewProduct, "id" | "createdAt">
-  ): Promise<Product>;
+  ): Promise<NewProduct>;
 
   // editProduct(productData: Omit<Product, "createdAt">): Promise<Product>;
 
