@@ -19,12 +19,12 @@ productRouter.post(
   productController.addProduct
 );
 
-// productRouter.put(
-//   "/:id/:categoryId",
-//   roleValidator([Role.ADMIN]),
-//   schemaValidator(productSchema),
-//   productController.editProduct
-// );
+productRouter.put(
+  "/:id",
+  roleValidator([Role.ADMIN]),
+  schemaValidator(productSchema),
+  productController.editProduct
+);
 
 productRouter.delete(
   "/:id",

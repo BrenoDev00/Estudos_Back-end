@@ -13,6 +13,26 @@ class CategoriesOnProducts implements ICategoriesOnProductsRepository {
       },
     });
   }
+
+  async editCategoryOnProduct(
+    productCategoriesId: string[],
+    productId: string
+  ): Promise<void> {
+    await prisma.categoriesOnProducts.deleteMany({
+      where: {
+        productId,
+      },
+    });
+
+    const categoriesOnProductsData = productCategoriesId.map((categoryId) => ({
+      productId,
+      categoryId,
+    }));
+
+    await prisma.categoriesOnProducts.createMany({
+      data: categoriesOnProductsData,
+    });
+  }
 }
 
 const categoriesOnProducts = new CategoriesOnProducts();

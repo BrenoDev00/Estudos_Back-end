@@ -44,7 +44,9 @@ class ProductRepository implements IProductRepository {
     return addedProduct;
   }
 
-  async editProduct(productData: Omit<Product, "createdAt">): Promise<Product> {
+  async editProduct(
+    productData: Omit<Product, "createdAt">
+  ): Promise<Omit<Product, "createdAt">> {
     const { id } = productData;
 
     const editedProduct = await prisma.product.update({
@@ -52,6 +54,7 @@ class ProductRepository implements IProductRepository {
         id: id,
       },
       data: productData,
+      omit: { createdAt: true },
     });
 
     return editedProduct;

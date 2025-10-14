@@ -1,5 +1,5 @@
 import { Product } from "@prisma/client";
 
-export interface NewProduct extends Product {
+export interface ProductData extends Product {
   productCategoriesId: string[];
 }

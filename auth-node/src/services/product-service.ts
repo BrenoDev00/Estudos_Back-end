@@ -6,7 +6,7 @@ import {
   PRODUCT_CATEGORY_NOT_FOUND,
   PRODUCT_NOT_FOUND,
 } from "../utils/constants.js";
-import { NewProduct } from "../types/new-product.type.js";
+import { ProductData } from "../types/new-product.type.js";
 import categoriesOnProducts from "../repositories/categories-on-products-repository.js";
 
 class ProductService implements IProductService {
@@ -32,8 +32,8 @@ class ProductService implements IProductService {
   }
 
   async addProduct(
-    productData: Omit<NewProduct, "id" | "createdAt">
-  ): Promise<NewProduct> {
+    productData: Omit<ProductData, "id" | "createdAt">
+  ): Promise<ProductData> {
     const { productCategoriesId, name, description, priceInCents } =
       productData;
 
@@ -61,22 +61,35 @@ class ProductService implements IProductService {
     };
   }
 
-  // async editProduct(productData: Omit<Product, "createdAt">): Promise<Product> {
-  //   const { categoryId, id } = productData;
+  async editProduct(
+    productData: Omit<ProductData, "createdAt">
+  ): Promise<Omit<ProductData, "createdAt">> {
+    const { id, name, description, priceInCents, productCategoriesId } =
+      productData;
 
-  //   const searchedProductId = await productRepository.getProductId(id);
+    const searchedProductId = await productRepository.getProductId(id);
 
-  //   if (!searchedProductId) throw new Error(PRODUCT_NOT_FOUND);
+    if (!searchedProductId) throw new Error(PRODUCT_NOT_FOUND);
 
-  //   const searchedCategoryId =
-  //     await productCategoryRepository.getProductCategoryId(categoryId);
+    for (const categoryId of productCategoriesId) {
+      const searchedProductCategoryId =
+        await productCategoryRepository.getProductCategoryId(categoryId);
 
-  //   if (!searchedCategoryId) throw new Error(PRODUCT_CATEGORY_NOT_FOUND);
+      if (!searchedProductCategoryId)
+        throw new Error(PRODUCT_CATEGORY_NOT_FOUND);
+    }
 
-  //   const editedProduct = await productRepository.editProduct(productData);
+    const editedProduct = await productRepository.editProduct({
+      id,
+      name,
+      description,
+      priceInCents,
+    });
 
-  //   return editedProduct;
-  // }
+    await categoriesOnProducts.editCategoryOnProduct(productCategoriesId, id);
+
+    return { ...editedProduct, productCategoriesId };
+  }
 
   async deleteProduct(productId: string): Promise<void> {
     const searchedProductId = await productRepository.getProductId(productId);
