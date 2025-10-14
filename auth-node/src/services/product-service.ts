@@ -13,7 +13,22 @@ class ProductService implements IProductService {
   async getProducts(): Promise<AllProducts[]> {
     const products = await productRepository.getProducts();
 
-    return products;
+    const formattedProductsList = products.map((product) => {
+      const { id, name, priceInCents, description, categoriesOnProducts } =
+        product;
+
+      return {
+        id,
+        name,
+        priceInCents,
+        description,
+        productCategoriesId: categoriesOnProducts.map(
+          (categoryOnProduct) => categoryOnProduct.categoryId
+        ),
+      };
+    });
+
+    return formattedProductsList;
   }
 
   async addProduct(

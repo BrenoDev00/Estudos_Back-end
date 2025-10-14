@@ -1,5 +1,7 @@
-import { Product, ProductCategory } from "@prisma/client";
-
-export interface AllProducts
-  extends ProductCategory,
-    Omit<Product, "categoryId" | "createdAt"> {}
+export interface AllProducts {
+  id: string;
+  name: string;
+  description: string;
+  priceInCents: number;
+  productCategoriesId: string[];
+}
