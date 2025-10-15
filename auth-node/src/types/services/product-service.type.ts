@@ -1,8 +1,8 @@
-import { AllProducts } from "../all-products.type.js";
 import { ProductData } from "../new-product.type.js";
+import { ProductWithCategories } from "../product-with-categories.type.js";
 
 export interface IProductService {
-  getProducts(): Promise<AllProducts[]>;
+  getProducts(): Promise<ProductWithCategories[]>;
 
   addProduct(
     productData: Omit<ProductData, "id" | "createdAt">

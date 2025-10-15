@@ -1,10 +1,10 @@
 import { Product } from "@prisma/client";
-import { ProductWithCategoryId } from "../product-with-category-id.type.js";
+import { ProductWithCategoriesOnProducts } from "../product-with-categories-on-products.type.js";
 
 export interface IProductRepository {
   getProductId(id: string): Promise<{ id: string } | null>;
 
-  getProducts(): Promise<ProductWithCategoryId[]>;
+  getProducts(): Promise<ProductWithCategoriesOnProducts[]>;
 
   addProduct(productData: Omit<Product, "id" | "createdAt">): Promise<Product>;
 

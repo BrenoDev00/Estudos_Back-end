@@ -1,5 +1,4 @@
 import productRepository from "../repositories/product-repository.js";
-import { AllProducts } from "../types/all-products.type.js";
 import { IProductService } from "../types/services/product-service.type.js";
 import productCategoryRepository from "../repositories/product-category-repository.js";
 import {
@@ -8,23 +7,29 @@ import {
 } from "../utils/constants.js";
 import { ProductData } from "../types/new-product.type.js";
 import categoriesOnProducts from "../repositories/categories-on-products-repository.js";
+import { ProductWithCategories } from "../types/product-with-categories.type.js";
 
 class ProductService implements IProductService {
-  async getProducts(): Promise<AllProducts[]> {
+  async getProducts(): Promise<ProductWithCategories[]> {
     const products = await productRepository.getProducts();
 
     const formattedProductsList = products.map((product) => {
-      const { id, name, priceInCents, description, categoriesOnProducts } =
+      const { id, name, description, priceInCents, categoriesOnProducts } =
         product;
+
+      const categoriesList = categoriesOnProducts.map((categoryOnProduct) => {
+        return {
+          id: categoryOnProduct.category.id,
+          name: categoryOnProduct.category.name,
+        };
+      });
 
       return {
         id,
         name,
-        priceInCents,
         description,
-        productCategoriesId: categoriesOnProducts.map(
-          (categoryOnProduct) => categoryOnProduct.categoryId
-        ),
+        priceInCents,
+        categories: categoriesList,
       };
     });
 

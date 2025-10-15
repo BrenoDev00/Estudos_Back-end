@@ -1,7 +1,7 @@
 import { Product } from "@prisma/client";
 import { prisma } from "../config/prisma-client.js";
 import { IProductRepository } from "../types/repositories/product-repository.type.js";
-import { ProductWithCategoryId } from "../types/product-with-category-id.type.js";
+import { ProductWithCategoriesOnProducts } from "../types/product-with-categories-on-products.type.js";
 
 class ProductRepository implements IProductRepository {
   async getProductId(id: string): Promise<{ id: string } | null> {
@@ -17,7 +17,7 @@ class ProductRepository implements IProductRepository {
     return productId;
   }
 
-  async getProducts(): Promise<ProductWithCategoryId[]> {
+  async getProducts(): Promise<ProductWithCategoriesOnProducts[]> {
     const products = await prisma.product.findMany({
       omit: {
         createdAt: true,
@@ -25,7 +25,7 @@ class ProductRepository implements IProductRepository {
       include: {
         categoriesOnProducts: {
           select: {
-            categoryId: true,
+            category: true,
           },
         },
       },
