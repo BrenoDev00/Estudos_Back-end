@@ -7,10 +7,10 @@ import {
 } from "../utils/constants.js";
 import { ProductData } from "../types/new-product.type.js";
 import categoriesOnProducts from "../repositories/categories-on-products-repository.js";
-import { ProductWithCategories } from "../types/product-with-categories.type.js";
+import { ProductWithCategoriesResponse } from "../types/product-with-categories-response.js";
 
 class ProductService implements IProductService {
-  async getProducts(): Promise<ProductWithCategories[]> {
+  async getProducts(): Promise<ProductWithCategoriesResponse> {
     const products = await productRepository.getProducts();
 
     const formattedProductsList = products.map((product) => {
@@ -33,7 +33,12 @@ class ProductService implements IProductService {
       };
     });
 
-    return formattedProductsList;
+    const productWithCategoriesResponse: ProductWithCategoriesResponse = {
+      total: formattedProductsList.length,
+      products: formattedProductsList,
+    };
+
+    return productWithCategoriesResponse;
   }
 
   async addProduct(

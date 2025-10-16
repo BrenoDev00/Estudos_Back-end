@@ -29,6 +29,10 @@ class ProductRepository implements IProductRepository {
           },
         },
       },
+
+      orderBy: {
+        name: "asc",
+      },
     });
 
     return products;
