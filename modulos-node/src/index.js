@@ -6,13 +6,21 @@ readFile("arquivos/texto-web.txt", "utf-8", (err, data) => {
   quebraEmParagrafos(data);
 });
 
+function limpaPalavras(palavra) {
+  return palavra.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
+}
+
 function verificaPalavrasDuplicadas(texto) {
   const listaPalavras = texto.split(" ");
 
   const resultado = {};
 
   listaPalavras.forEach((palavra) => {
-    resultado[palavra] = (resultado[palavra] || 0) + 1;
+    if (palavra.length >= 3) {
+      const palavraLimpa = limpaPalavras(palavra);
+
+      resultado[palavraLimpa] = (resultado[palavraLimpa] || 0) + 1;
+    }
   });
 
   return resultado;
