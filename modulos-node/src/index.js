@@ -29,9 +29,11 @@ function verificaPalavrasDuplicadas(texto) {
 function quebraEmParagrafos(texto) {
   const paragrafos = texto.toLowerCase().split("\n");
 
-  const resultado = paragrafos.map((paragrafo) => {
+  const contagem = paragrafos.flatMap((paragrafo) => {
+    if (!paragrafo) return [];
+
     return verificaPalavrasDuplicadas(paragrafo);
   });
 
-  console.log(resultado);
+  console.log(contagem);
 }
