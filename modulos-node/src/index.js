@@ -1,39 +1,28 @@
-import { readFile } from "node:fs";
+import { readFile, writeFile } from "node:fs";
+import { trataErro } from "./trata-erro.js";
+import { quebraEmParagrafos } from "./formatadores-de-texto.js";
 
-readFile("arquivos/texto-web.txt", "utf-8", (err, data) => {
-  if (err) throw new Error("Erro ao processar arquivo. Tente novamente.");
+function criaESalvaArquivo(listaPalavras, endereco) {
+  const arquivoNovo = `${endereco}/resultado.txt`;
+  const textoPalavras = JSON.stringify(listaPalavras);
 
-  quebraEmParagrafos(data);
+  try {
+    writeFile(arquivoNovo, textoPalavras, () => {});
+
+    console.log("Arquivo criado com sucesso!");
+  } catch (error) {
+    trataErro(error);
+  }
+}
+
+readFile("arquivos/texto-web.txt", "utf-8", (error, data) => {
+  try {
+    const contagem = quebraEmParagrafos(data);
+
+    const enderecoArquivo = process.argv[2];
+
+    criaESalvaArquivo(contagem, enderecoArquivo);
+  } catch {
+    trataErro(error);
+  }
 });
-
-function limpaPalavras(palavra) {
-  return palavra.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
-}
-
-function verificaPalavrasDuplicadas(texto) {
-  const listaPalavras = texto.split(" ");
-
-  const resultado = {};
-
-  listaPalavras.forEach((palavra) => {
-    if (palavra.length >= 3) {
-      const palavraLimpa = limpaPalavras(palavra);
-
-      resultado[palavraLimpa] = (resultado[palavraLimpa] || 0) + 1;
-    }
-  });
-
-  return resultado;
-}
-
-function quebraEmParagrafos(texto) {
-  const paragrafos = texto.toLowerCase().split("\n");
-
-  const contagem = paragrafos.flatMap((paragrafo) => {
-    if (!paragrafo) return [];
-
-    return verificaPalavrasDuplicadas(paragrafo);
-  });
-
-  console.log(contagem);
-}
