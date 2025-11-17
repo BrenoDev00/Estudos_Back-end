@@ -17,11 +17,11 @@ function criaESalvaArquivo(listaPalavras, endereco) {
 
 readFile("arquivos/texto-web.txt", "utf-8", (error, data) => {
   try {
-    const contagem = quebraEmParagrafos(data);
+    const arquivoFormatado = quebraEmParagrafos(data);
 
     const enderecoArquivo = process.argv[2];
 
-    criaESalvaArquivo(contagem, enderecoArquivo);
+    criaESalvaArquivo(arquivoFormatado, enderecoArquivo);
   } catch {
     trataErro(error);
   }

@@ -3,5 +3,5 @@ export function trataErro(erro) {
     throw new Error("Arquivo não encontrado.");
   }
 
-  return "Erro na aplicação";
+  return console.error("Erro na aplicação");
 }
