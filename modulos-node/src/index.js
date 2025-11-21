@@ -1,10 +1,11 @@
 import { readFile, writeFile } from "node:fs";
 import { trataErro } from "./trata-erro.js";
 import { quebraEmParagrafos } from "./formatadores-de-texto.js";
+import { montaSaidaArquivo } from "./formatadores-de-texto.js";
 
 function criaESalvaArquivo(listaPalavras, endereco) {
   const arquivoNovo = `${endereco}/resultado.txt`;
-  const textoPalavras = JSON.stringify(listaPalavras);
+  const textoPalavras = montaSaidaArquivo(listaPalavras);
 
   try {
     writeFile(arquivoNovo, textoPalavras, () => {});
