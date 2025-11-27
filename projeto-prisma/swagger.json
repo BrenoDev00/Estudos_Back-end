@@ -5,13 +5,13 @@
     "description": "Projeto Prisma com Swagger.",
     "version": "1.0.0",
     "license": {
-      "name": "MIT"
+      "name": "Licença MIT"
     }
   },
   "servers": [
     {
       "url": "http://localhost:3000",
-      "description": "API local."
+      "description": "API de desenvolvimento."
     }
   ],
   "paths": {
@@ -19,14 +19,41 @@
       "get": {
         "summary": "Lista contatos",
         "description": "Lista todos os contatos.",
-        "tags": ["Contacts"],
+        "tags": ["Contact"],
         "responses": {
           "200": {
-            "description": "successful operation",
+            "description": "Sucesso."
+          },
+          "500": {
+            "description": "Erro interno do servidor."
+          }
+        }
+      }
+    },
+    "/contacts/{contactId}": {
+      "get": {
+        "summary": "Lista contato",
+        "description": "Lista contato pelo seu id.",
+        "tags": ["Contact"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "contactId",
             "schema": {
-              "type": "object",
-              "contact": "[]"
-            }
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sucesso."
+          },
+          "404": {
+            "description": "Contato não encontrado."
+          },
+          "500": {
+            "description": "Erro interno do servidor."
           }
         }
       }
