@@ -1,5 +1,5 @@
 import { prisma } from "../config/prisma";
-import { Contact } from "../../generated/prisma";
+import { Contact } from "@prisma/client";
 import { IContactRepository } from "../types/repositories/contact-repository.type";
 import { TAddContact } from "../types/add-contact.type";
 import { TUpdateContact } from "../types/update-contact.type";

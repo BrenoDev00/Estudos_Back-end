@@ -1,4 +1,4 @@
-import { Contact } from "../../../generated/prisma";
+import { Contact } from "@prisma/client";
 import { TAddContact } from "../add-contact.type";
 import { TAllContactsData } from "../all-contacts-data.type";
 import { TContactData } from "../contact-data.type";

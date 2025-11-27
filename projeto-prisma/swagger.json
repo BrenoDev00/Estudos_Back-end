@@ -1,0 +1,35 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Projeto Prisma",
+    "description": "Projeto Prisma com Swagger.",
+    "version": "1.0.0",
+    "license": {
+      "name": "MIT"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "API local."
+    }
+  ],
+  "paths": {
+    "/contacts": {
+      "get": {
+        "summary": "Lista contatos",
+        "description": "Lista todos os contatos.",
+        "tags": ["Contacts"],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "contact": "[]"
+            }
+          }
+        }
+      }
+    }
+  }
+}

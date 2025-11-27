@@ -1,4 +1,4 @@
-import { Phone, Address } from "../../generated/prisma";
+import { Phone, Address } from "@prisma/client";
 
 export type TContactData = {
   id: string;
