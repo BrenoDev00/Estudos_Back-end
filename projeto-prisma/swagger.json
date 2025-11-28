@@ -28,6 +28,59 @@
             "description": "Erro interno do servidor."
           }
         }
+      },
+
+      "post": {
+        "summary": "Cadastra contato",
+        "description": "Cadastra novo contato.",
+        "tags": ["Contact"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "phone": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "title": {
+                          "type": "string"
+                        },
+                        "number": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "address": {
+                    "type": "object",
+                    "properties": {
+                      "street": {
+                        "type": "string"
+                      },
+                      "zipCode": {
+                        "type": "string"
+                      },
+                      "number": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "": {
+            "description": ""
+          }
+        }
       }
     },
     "/contacts/{contactId}": {
