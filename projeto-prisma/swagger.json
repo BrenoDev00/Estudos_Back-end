@@ -14,9 +14,11 @@
       "description": "API de desenvolvimento."
     }
   ],
+
   "paths": {
     "/contacts": {
       "get": {
+        "security": [{ "bearerAuth": [] }],
         "summary": "Lista contatos",
         "description": "Lista todos os contatos.",
         "tags": ["Contact"],
@@ -191,6 +193,15 @@
             "": ""
           }
         }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
       }
     }
   }
