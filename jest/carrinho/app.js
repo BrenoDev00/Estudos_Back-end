@@ -1,5 +1,5 @@
-import Carrinho from './carrinho.js';
-import Item from './item';
+import Carrinho from './carrinho/carrinho.js';
+import Item from './item/item.js';
 
 const carrinho = new Carrinho();
 
