@@ -15,6 +15,24 @@ describe("Editora testes unitários", () => {
     expect(editora.email).toEqual("cdc@mail.com");
   });
 
+  it("Deve listar todas as editoras cadastradas", async () => {
+    const editora = new Editora(objetoEditora);
+    await editora.salvar();
+
+    expect(await Editora.pegarEditoras()).toEqual(
+      expect.arrayContaining([
+        {
+          id: expect.any(Number),
+          ...objetoEditora,
+          created_at: expect.any(String),
+          updated_at: expect.any(String),
+        },
+      ]),
+    );
+
+    expect(await Editora.pegarEditoras()).not.toHaveLength(0);
+  });
+
   it("Deve cadastrar uma nova Editora", async () => {
     const editora = new Editora(objetoEditora);
 
@@ -31,4 +49,6 @@ describe("Editora testes unitários", () => {
       }),
     );
   });
+
+  
 });
