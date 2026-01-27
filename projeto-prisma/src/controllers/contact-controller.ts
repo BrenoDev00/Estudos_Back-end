@@ -1,17 +1,19 @@
 import { IContactController } from "../types/controllers/contact-controller.type";
 import { Request, Response } from "express";
 import { z } from "zod";
-import { contactService } from "../services/contact-service";
 import { addContactSchema } from "../schemas/add-contact-schema";
 import { updatContactSchema } from "../schemas/update-contact-schema";
 import { TAllContactsData } from "../types/all-contacts-data.type";
 import { TContactData } from "../types/contact-data.type";
+import { ContactService } from "../services/contact-service";
 
-class ContactController implements IContactController {
+export class ContactController implements IContactController {
+  constructor(private readonly contactService: ContactService) {}
+
   async getAllContacts(_req: Request, res: Response): Promise<Response> {
     try {
       const contactsList: TAllContactsData[] =
-        await contactService.getAllContacts();
+        await this.contactService.getAllContacts();
 
       return res.status(200).send({
         contacts: contactsList,
@@ -25,9 +27,8 @@ class ContactController implements IContactController {
     const { contactId } = req.params;
 
     try {
-      const contactById: TContactData = await contactService.getContactById(
-        contactId!
-      );
+      const contactById: TContactData =
+        await this.contactService.getContactById(contactId!);
 
       if (!contactById)
         return res.status(404).send({ message: "Contato não encontrado." });
@@ -45,14 +46,14 @@ class ContactController implements IContactController {
 
     if (!contactDataValidation.success) {
       const formattedContactErrors = z.prettifyError(
-        contactDataValidation.error
+        contactDataValidation.error,
       );
 
       return res.status(400).send(formattedContactErrors);
     }
 
     try {
-      await contactService.addContact(body);
+      await this.contactService.addContact(body);
 
       return res.status(201).send({ message: "Contato adicionado." });
     } catch (error) {
@@ -64,8 +65,8 @@ class ContactController implements IContactController {
     const { contactId } = req.params;
     const { body } = req;
 
-    const contactById: TContactData = await contactService.getContactById(
-      contactId!
+    const contactById: TContactData = await this.contactService.getContactById(
+      contactId!,
     );
 
     if (!contactById)
@@ -75,14 +76,14 @@ class ContactController implements IContactController {
 
     if (!contactDataValidation.success) {
       const formattedContactErrors = z.prettifyError(
-        contactDataValidation.error
+        contactDataValidation.error,
       );
 
       return res.status(400).send(formattedContactErrors);
     }
 
     try {
-      await contactService.updateContactById(contactId!, body);
+      await this.contactService.updateContactById(contactId!, body);
 
       return res.status(200).send(contactById.id);
     } catch (error) {
@@ -95,8 +96,8 @@ class ContactController implements IContactController {
   async deleteContactById(req: Request, res: Response): Promise<Response> {
     const { contactId } = req.params;
 
-    const contactById: TContactData = await contactService.getContactById(
-      contactId!
+    const contactById: TContactData = await this.contactService.getContactById(
+      contactId!,
     );
 
     if (!contactById) {
@@ -104,7 +105,7 @@ class ContactController implements IContactController {
     }
 
     try {
-      await contactService.deleteContactById(contactId!);
+      await this.contactService.deleteContactById(contactId!);
 
       return res.status(204).send();
     } catch (error) {
@@ -112,5 +113,3 @@ class ContactController implements IContactController {
     }
   }
 }
-
-export const contactController = new ContactController();

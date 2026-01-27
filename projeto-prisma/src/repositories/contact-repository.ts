@@ -5,7 +5,7 @@ import { TAddContact } from "../types/add-contact.type";
 import { TUpdateContact } from "../types/update-contact.type";
 import { TAllContactsData } from "../types/all-contacts-data.type";
 import { TContactData } from "../types/contact-data.type";
-class ContactRepository implements IContactRepository {
+export class ContactRepository implements IContactRepository {
   async getAllContacts(): Promise<TAllContactsData[]> {
     return (await prisma.contact.findMany({
       include: {
@@ -75,7 +75,7 @@ class ContactRepository implements IContactRepository {
 
   async updateContactById(
     contactId: string,
-    contact: TUpdateContact
+    contact: TUpdateContact,
   ): Promise<TUpdateContact> {
     const { name, phone, address } = contact;
 
@@ -108,5 +108,3 @@ class ContactRepository implements IContactRepository {
     });
   }
 }
-
-export const contactRepository = new ContactRepository();

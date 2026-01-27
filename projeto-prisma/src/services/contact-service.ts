@@ -1,34 +1,34 @@
 import { Contact } from "@prisma/client";
 import { IContactService } from "../types/services/contact-service.type";
-import { contactRepository } from "../repositories/contact-repository";
+import { ContactRepository } from "../repositories/contact-repository";
 import { TAddContact } from "../types/add-contact.type";
 import { TUpdateContact } from "../types/update-contact.type";
 import { TAllContactsData } from "../types/all-contacts-data.type";
 import { TContactData } from "../types/contact-data.type";
 
 export class ContactService implements IContactService {
+  constructor(private readonly contactRepository: ContactRepository) {}
+
   async getAllContacts(): Promise<TAllContactsData[]> {
-    return await contactRepository.getAllContacts();
+    return await this.contactRepository.getAllContacts();
   }
 
   async getContactById(contactId: string): Promise<TContactData> {
-    return await contactRepository.getContactById(contactId);
+    return await this.contactRepository.getContactById(contactId);
   }
 
   async addContact(contact: TAddContact): Promise<TAddContact> {
-    return await contactRepository.addContact(contact);
+    return await this.contactRepository.addContact(contact);
   }
 
   async updateContactById(
     contactId: string,
-    contact: TUpdateContact
+    contact: TUpdateContact,
   ): Promise<TUpdateContact> {
-    return await contactRepository.updateContactById(contactId, contact);
+    return await this.contactRepository.updateContactById(contactId, contact);
   }
 
   async deleteContactById(contactId: string): Promise<Contact> {
-    return await contactRepository.deleteContactById(contactId);
+    return await this.contactRepository.deleteContactById(contactId);
   }
 }
-
-export const contactService = new ContactService();

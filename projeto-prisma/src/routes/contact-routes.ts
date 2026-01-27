@@ -1,5 +1,11 @@
 import { Router, Request, Response } from "express";
-import { contactController } from "../controllers/contact-controller";
+import { ContactController } from "../controllers/contact-controller";
+import { ContactRepository } from "../repositories/contact-repository";
+import { ContactService } from "../services/contact-service";
+
+const contactRepository = new ContactRepository();
+const contactService = new ContactService(contactRepository);
+const contactController = new ContactController(contactService);
 
 const contactRouter: Router = Router();
 
