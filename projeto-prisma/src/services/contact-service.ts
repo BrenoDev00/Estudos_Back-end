@@ -17,14 +17,16 @@ export class ContactService implements IContactService {
     return await this.contactRepository.getContactById(contactId);
   }
 
-  async addContact(contact: TAddContact): Promise<TAddContact> {
+  async addContact(
+    contact: TAddContact,
+  ): Promise<TAddContact & { id: string }> {
     return await this.contactRepository.addContact(contact);
   }
 
   async updateContactById(
     contactId: string,
     contact: TUpdateContact,
-  ): Promise<TUpdateContact> {
+  ): Promise<TUpdateContact & { id: string }> {
     return await this.contactRepository.updateContactById(contactId, contact);
   }
 

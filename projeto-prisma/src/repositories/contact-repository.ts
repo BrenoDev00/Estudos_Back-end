@@ -51,7 +51,9 @@ export class ContactRepository implements IContactRepository {
     })) as TContactData;
   }
 
-  async addContact(contact: TAddContact): Promise<TAddContact> {
+  async addContact(
+    contact: TAddContact,
+  ): Promise<TAddContact & { id: string }> {
     const { address, phone, name } = contact;
 
     return (await prisma.contact.create({
@@ -66,17 +68,24 @@ export class ContactRepository implements IContactRepository {
           create: address,
         },
       },
-      include: {
-        phone: true,
-        address: true,
+
+      select: {
+        id: true,
+        name: true,
+        phone: {
+          select: { id: true, title: true, number: true },
+        },
+        address: {
+          select: { id: true, street: true, zipCode: true, number: true },
+        },
       },
-    })) as TAddContact;
+    })) as TAddContact & { id: string };
   }
 
   async updateContactById(
     contactId: string,
     contact: TUpdateContact,
-  ): Promise<TUpdateContact> {
+  ): Promise<TUpdateContact & { id: string }> {
     const { name, phone, address } = contact;
 
     return (await prisma.contact.update({
@@ -95,11 +104,17 @@ export class ContactRepository implements IContactRepository {
           },
         },
       },
-      include: {
-        address: true,
-        phone: true,
+      select: {
+        id: true,
+        name: true,
+        phone: {
+          select: { id: true, title: true, number: true },
+        },
+        address: {
+          select: { id: true, street: true, zipCode: true, number: true },
+        },
       },
-    })) as TUpdateContact;
+    })) as TUpdateContact & { id: string };
   }
 
   async deleteContactById(contactId: string): Promise<Contact> {
