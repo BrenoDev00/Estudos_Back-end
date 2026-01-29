@@ -6,18 +6,36 @@ import { TAddContact } from "../types/add-contact.type";
 import { TUpdateContact } from "../types/update-contact.type";
 
 export class InMemoryContactRepository implements IContactRepository {
-  private contacts: TAllContactsData[] = [];
+  private contacts: TAllContactsData[] = [
+    {
+      id: "1",
+      name: "Contact one",
+      phone: [
+        {
+          id: "1",
+          title: "Personal",
+          number: "(00) 4567-0998",
+        },
+      ],
+      address: {
+        id: "1",
+        street: "Street Y",
+        zipCode: "4567-8899",
+        number: 56,
+      },
+    },
+  ];
 
   async getAllContacts(): Promise<TAllContactsData[]> {
     return Promise.resolve(this.contacts);
   }
 
-  async getContactById(contactId: string): Promise<TContactData | null> {
+  async getContactById(contactId: string): Promise<TContactData> {
     const searchedContact = this.contacts.find(
       (contact) => contact.id === contactId,
     );
 
-    return Promise.resolve(searchedContact ?? null);
+    return Promise.resolve(searchedContact as TContactData);
   }
 
   async addContact(

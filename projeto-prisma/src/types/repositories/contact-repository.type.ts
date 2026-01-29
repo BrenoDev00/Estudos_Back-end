@@ -7,7 +7,7 @@ import { TContactData } from "../contact-data.type";
 export interface IContactRepository {
   getAllContacts(): Promise<TAllContactsData[]>;
 
-  getContactById(contactId: string): Promise<TContactData | null>;
+  getContactById(contactId: string): Promise<TContactData>;
 
   addContact(contact: TAddContact): Promise<TAddContact & { id: string }>;
 

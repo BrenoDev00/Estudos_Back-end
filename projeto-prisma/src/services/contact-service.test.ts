@@ -1,49 +1,26 @@
 import { ContactService } from "./contact-service";
-import { TContactData } from "../types/contact-data.type";
-import { ContactRepository } from "../repositories/contact-repository";
+import { InMemoryContactRepository } from "../repositories/in-memory-contact-repository";
+import { TAddContact } from "../types/add-contact.type";
+import { TAllContactsData } from "../types/all-contacts-data.type";
 
 describe("Contact Service", () => {
-  const contactRepositoryMock: jest.Mocked<ContactRepository> = {
-    getAllContacts: jest.fn(),
-    getContactById: jest.fn(),
-    addContact: jest.fn(),
-    updateContactById: jest.fn(),
-    deleteContactById: jest.fn(),
-  };
+  let contactService: ContactService;
+  let inMemoryContactRepository: InMemoryContactRepository;
 
-  const contactService = new ContactService(contactRepositoryMock);
+  beforeEach(() => {
+    inMemoryContactRepository = new InMemoryContactRepository();
+    contactService = new ContactService(inMemoryContactRepository);
+  });
 
-  const contactMockOne: TContactData = {
-    id: "1",
-    name: "Contact test one",
-
+  const contactMock: TAddContact = {
+    name: "Contact two",
     phone: [
       {
-        id: "1",
-        title: "Personal",
-        number: "(00) 4567-0998",
-      },
-    ],
-    address: {
-      id: "1",
-      street: "Street Y",
-      zipCode: "4567-8899",
-      number: 56,
-    },
-  };
-
-  const contactMockTwo: TContactData = {
-    id: "2",
-    name: "Contact test two",
-    phone: [
-      {
-        id: "2",
         title: "Home",
         number: "(00) 5556-0998",
       },
     ],
     address: {
-      id: "2",
       street: "Street X",
       zipCode: "4567-6677",
       number: 12,
@@ -51,62 +28,92 @@ describe("Contact Service", () => {
   };
 
   it("Should allow contact registration", async () => {
-    contactRepositoryMock.addContact.mockResolvedValue(contactMockOne);
+    const createdContact = await contactService.addContact(contactMock);
 
-    const createdContact = await contactService.addContact(contactMockOne);
-
-    expect(createdContact).toEqual(contactMockOne);
+    expect(createdContact).toEqual({
+      id: expect.any(String),
+      ...contactMock,
+      phone: [...contactMock.phone].map((phone) => {
+        return { ...phone, id: expect.any(String) };
+      }),
+      address: {
+        ...contactMock.address,
+        id: expect.any(String),
+      },
+    });
   });
 
   it("Should allow searching for contact by ID", async () => {
-    contactRepositoryMock.getContactById.mockResolvedValue(contactMockOne);
+    const contactId = "1";
 
-    const searchedContact = await contactService.getContactById(
-      contactMockOne.id,
-    );
+    const searchedContact = await contactService.getContactById(contactId);
 
-    expect(searchedContact).toEqual(contactMockOne);
+    const expectedContact: TAllContactsData = {
+      id: "1",
+      name: "Contact one",
+      phone: [
+        {
+          id: "1",
+          title: "Personal",
+          number: "(00) 4567-0998",
+        },
+      ],
+      address: {
+        id: "1",
+        street: "Street Y",
+        zipCode: "4567-8899",
+        number: 56,
+      },
+    };
+
+    expect(searchedContact).toEqual(expectedContact);
   });
 
   it("Should allow to list all contacts", async () => {
-    contactRepositoryMock.getAllContacts.mockResolvedValue([
-      contactMockOne,
-      contactMockTwo,
-    ]);
-
     const contacts = await contactService.getAllContacts();
 
-    expect(contacts).toEqual([contactMockOne, contactMockTwo]);
+    const expectedContact: TAllContactsData = {
+      id: "1",
+      name: "Contact one",
+      phone: [
+        {
+          id: "1",
+          title: "Personal",
+          number: "(00) 4567-0998",
+        },
+      ],
+      address: {
+        id: "1",
+        street: "Street Y",
+        zipCode: "4567-8899",
+        number: 56,
+      },
+    };
+
+    expect(contacts).toEqual([expectedContact]);
   });
 
   it("Should allow to updating a contact", async () => {
-    contactRepositoryMock.updateContactById.mockResolvedValue({
-      ...contactMockTwo,
-      id: contactMockOne.id,
-    });
+    const contactId = "1";
 
     const updatedContact = await contactService.updateContactById(
-      contactMockOne.id,
-      contactMockTwo,
+      contactId,
+      contactMock,
     );
 
     expect(updatedContact).toEqual({
-      ...contactMockTwo,
-      id: contactMockOne.id,
+      ...contactMock,
+      id: contactId,
     });
   });
 
   it("Should allow to delete a contact", async () => {
-    contactRepositoryMock.getAllContacts.mockResolvedValue([contactMockTwo]);
+    const contactId = "1";
 
-    contactRepositoryMock.deleteContactById.mockResolvedValue(contactMockOne);
-
-    await contactService.deleteContactById(contactMockOne.id);
+    const deletedContact = await contactService.deleteContactById(contactId);
 
     const contacts = await contactService.getAllContacts();
 
-    expect(contacts).toEqual(expect.not.arrayContaining([contactMockOne]));
-
-    expect(contacts).toEqual(expect.arrayContaining([contactMockTwo]));
+    expect(contacts).toEqual(expect.not.arrayContaining([deletedContact]));
   });
 });
