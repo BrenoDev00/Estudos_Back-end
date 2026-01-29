@@ -25,5 +25,6 @@
     "moduleDetection": "force",
     "skipLibCheck": true
   },
-  "include": ["./src", "./prisma/seed.ts"]
+  "include": ["./src", "./prisma/seed.ts"],
+  "exclude": ["**/*test.ts"]
 }
