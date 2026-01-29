@@ -1,8 +1,5 @@
-import { Contact } from "@prisma/client";
-import { TAddContact } from "../types/add-contact.type";
 import { ContactService } from "./contact-service";
 import { TContactData } from "../types/contact-data.type";
-import { IContactRepository } from "../types/repositories/contact-repository.type";
 import { ContactRepository } from "../repositories/contact-repository";
 
 describe("Contact Service", () => {
@@ -35,22 +32,25 @@ describe("Contact Service", () => {
     },
   };
 
-  const contactMockTwo: TAddContact = {
+  const contactMockTwo: TContactData = {
+    id: "2",
     name: "Contact test two",
     phone: [
       {
+        id: "2",
         title: "Home",
         number: "(00) 5556-0998",
       },
     ],
     address: {
+      id: "2",
       street: "Street X",
       zipCode: "4567-6677",
       number: 12,
     },
   };
 
-  it.only("Should allow contact registration", async () => {
+  it("Should allow contact registration", async () => {
     contactRepositoryMock.addContact.mockResolvedValue(contactMockOne);
 
     const createdContact = await contactService.addContact(contactMockOne);
@@ -59,67 +59,54 @@ describe("Contact Service", () => {
   });
 
   it("Should allow searching for contact by ID", async () => {
-    const createdContact = await contactService.addContact(contactMockOne);
+    contactRepositoryMock.getContactById.mockResolvedValue(contactMockOne);
 
     const searchedContact = await contactService.getContactById(
-      createdContact.id,
+      contactMockOne.id,
     );
 
-    expect(searchedContact).toEqual(createdContact);
+    expect(searchedContact).toEqual(contactMockOne);
   });
 
   it("Should allow to list all contacts", async () => {
-    const createdContactOne = await contactService.addContact(contactMockOne);
-    const createdContactTwo = await contactService.addContact(contactMockTwo);
+    contactRepositoryMock.getAllContacts.mockResolvedValue([
+      contactMockOne,
+      contactMockTwo,
+    ]);
 
     const contacts = await contactService.getAllContacts();
 
-    expect(contacts).toEqual(
-      expect.arrayContaining([createdContactOne, createdContactTwo]),
-    );
+    expect(contacts).toEqual([contactMockOne, contactMockTwo]);
   });
 
   it("Should allow to updating a contact", async () => {
-    const createdContact = await contactService.addContact(contactMockOne);
+    contactRepositoryMock.updateContactById.mockResolvedValue({
+      ...contactMockTwo,
+      id: contactMockOne.id,
+    });
 
     const updatedContact = await contactService.updateContactById(
-      createdContact.id,
+      contactMockOne.id,
       contactMockTwo,
     );
 
-    const searchedContact = await contactService.getContactById(
-      updatedContact.id,
-    );
-
-    expect(searchedContact).toEqual(
-      expect.objectContaining({
-        id: expect.any(String),
-        name: contactMockTwo.name,
-        phone: [
-          {
-            id: expect.any(String),
-            title: "Home",
-            number: "(00) 5556-0998",
-          },
-        ],
-        address: {
-          id: expect.any(String),
-          ...contactMockTwo.address,
-        },
-      }),
-    );
+    expect(updatedContact).toEqual({
+      ...contactMockTwo,
+      id: contactMockOne.id,
+    });
   });
 
   it("Should allow to delete a contact", async () => {
-    const createdContactOne = await contactService.addContact(contactMockOne);
-    const createdContactTwo = await contactService.addContact(contactMockTwo);
+    contactRepositoryMock.getAllContacts.mockResolvedValue([contactMockTwo]);
 
-    await contactService.deleteContactById(createdContactOne.id);
+    contactRepositoryMock.deleteContactById.mockResolvedValue(contactMockOne);
+
+    await contactService.deleteContactById(contactMockOne.id);
 
     const contacts = await contactService.getAllContacts();
 
-    expect(contacts).toEqual(expect.not.arrayContaining([createdContactOne]));
+    expect(contacts).toEqual(expect.not.arrayContaining([contactMockOne]));
 
-    expect(contacts).toEqual(expect.arrayContaining([createdContactTwo]));
+    expect(contacts).toEqual(expect.arrayContaining([contactMockTwo]));
   });
 });
